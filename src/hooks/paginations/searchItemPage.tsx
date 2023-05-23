@@ -39,10 +39,11 @@ function SearchItemPage({
   return (
     <Flex className="flex-col flex-1">
       <ChakraProvider>
-        <Box borderWidth="1px" borderRadius="lg" p="2">
+        <Box borderWidth="1px" p="3" borderRadius="lg">
           <Stack>
             {pageItems !== undefined &&
               Array.isArray(pageItems) &&
+              pageItems.length > 0 &&
               pageItems
                 .slice(offset, offset + pageSize)
                 .map((item: any) => (

@@ -36,17 +36,19 @@ const Search = () => {
   const [refetchInterval, setRefetchInterval] = useState(0);
   const [isSearchingEnabled, setIsSearchingEnabled] = useState(false);
   const { mutate } = useDeleteSearch();
-  const { isLoading, data, refetch, isRefetching } = useGetSearch(
-    parameters,
-    refetchInterval,
-    isSearchingEnabled,
-    () => onSuccessRequest()
+  const {
+    isLoading,
+    data: response,
+    refetch,
+    isRefetching,
+  } = useGetSearch(parameters, refetchInterval, isSearchingEnabled, () =>
+    onSuccessRequest()
   );
 
   const onSuccessRequest = () => {
-    if (data !== undefined) {
-      updateMessageCount(data);
-      pauseSearchIfNeeded(data);
+    if (response !== undefined) {
+      updateMessageCount(response);
+      pauseSearchIfNeeded(response);
     }
   };
   const [messageCount, setMessageCount] = useState(0);
@@ -101,7 +103,7 @@ const Search = () => {
 
   return (
     <Flex className="flex-col flex-1">
-      <Flex className="flex-col gap-8">
+      <Flex className="flex-col gap-5">
         <Flex className="items-end gap-5 [&>div>p]:text-gray-500 [&>div>p]:text-xs [&>div>p]:font-semibold">
           <Flex direction="column">
             <Text mb="6px">Topic Name</Text>
@@ -133,44 +135,48 @@ const Search = () => {
             {searchTextName}
           </Button>
         </Flex>
-        {data !== undefined && (
+        {response !== undefined && (
           <Box borderWidth="1px" borderRadius="lg" width="750px">
             <HStack
-              spacing="1px"
-              divider={<StackDivider borderColor="gray.200" />}>
-              {data !== undefined && (
-                <Stat p="4">
+              divider={
+                <StackDivider margin="0 !important" borderColor="gray.200" />
+              }>
+              {response !== undefined && (
+                <Stat px="3">
                   <StatLabel>Status</StatLabel>
-                  <StatNumber>{data['status']}</StatNumber>
-                  {data['status'] !== 'Finished' && isSearchingEnabled && (
+                  <StatNumber>{response['status']}</StatNumber>
+                  {response['status'] !== 'Finished' && isSearchingEnabled && (
                     <Spinner />
                   )}
                 </Stat>
               )}
-              {data !== undefined && (
-                <Stat p="4">
+              {response !== undefined && (
+                <Stat px="3">
                   <StatLabel>Created Date</StatLabel>
-                  <StatNumber>
-                    {new Date(+data['createdDate']).toLocaleString()}
+                  <StatNumber whiteSpace="nowrap">
+                    {new Date(+response['createdDate']).toLocaleString()}
                   </StatNumber>
                 </Stat>
               )}
-              {data !== undefined && data['completedTime'] !== undefined && (
-                <Stat p="4">
-                  <StatLabel>Completed Time</StatLabel>
-                  <StatNumber>
-                    <StatNumber>{data['completedTime'] + ' ms'} </StatNumber>
-                  </StatNumber>
-                </Stat>
-              )}
-              {data !== undefined && data['error'] !== undefined && (
-                <Stat p="4">
+              {response !== undefined &&
+                response['completedTime'] !== undefined && (
+                  <Stat px="3">
+                    <StatLabel>Completed Time</StatLabel>
+                    <StatNumber>
+                      <StatNumber>
+                        {response['completedTime'] + ' ms'}{' '}
+                      </StatNumber>
+                    </StatNumber>
+                  </Stat>
+                )}
+              {response !== undefined && response['error'] !== undefined && (
+                <Stat px="3">
                   <StatLabel>Error</StatLabel>
-                  <StatNumber>{data['error']}</StatNumber>
+                  <StatNumber>{response['error']}</StatNumber>
                 </Stat>
               )}
-              {data !== undefined && (
-                <Flex direction="column" p="1">
+              {response !== undefined && (
+                <Flex direction="column" p="4">
                   <IconButton
                     p="1px"
                     m="2px"
@@ -183,9 +189,9 @@ const Search = () => {
             </HStack>
           </Box>
         )}
-        {data !== undefined &&
-          data['status'] !== 'Finished' &&
-          data['data'].length === 0 &&
+        {response !== undefined &&
+          response['status'] !== 'Finished' &&
+          response['data'].length === 0 &&
           isSearchingEnabled && (
             <Stack>
               <Skeleton height="20px" />
@@ -194,13 +200,21 @@ const Search = () => {
             </Stack>
           )}
         <Accordion allowMultiple>
-          {data !== undefined &&
-            data.data !== undefined &&
-            data.data.length > 0 && (
+          {response !== undefined &&
+            response.data !== undefined &&
+            response['data'].length > 0 && (
               <SearchItemPage
-                pageItems={data.data}
+                pageItems={response.data}
                 CustomPage={SearchItem}
                 SearchKeyword={parameters.value}></SearchItemPage>
+            )}
+          {response !== undefined &&
+            response['status'] === 'Finished' &&
+            response['data'].length === 0 &&
+            !isSearchingEnabled && (
+              <Box borderWidth="1px" p="3" borderRadius="lg">
+                <Text fontSize="sm">Record is not found</Text>
+              </Box>
             )}
         </Accordion>
       </Flex>
