@@ -1,0 +1,62 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": ["react-app", "plugin:prettier/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "plugins": ["react", "react-hooks", "simple-import-sort", "prettier"],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx", "**/*.ts", "**/*.jsx", "**/*.js", "**/*.json"],
+      "rules": {
+        "react-hooks/exhaustive-deps": 0,
+        "simple-import-sort/imports": [
+          "warn",
+          {
+            "groups": [
+              ["(css)$"],
+              ["^\\u0000"],
+              ["^(react)", "prop-types", "^\\w"],
+              ["^@?\\w"],
+              ["^@tx-components", "^components", "^containers"],
+              [
+                "^apis",
+                "^assets",
+                "^constants",
+                "^context",
+                "^hooks",
+                "^i18n",
+                "^iframes",
+                "^pages",
+                "^pagesStore",
+                "^store",
+                "^styles",
+                "^utils"
+              ],
+              ["^\\."]
+            ]
+          }
+        ],
+        "simple-import-sort/exports": "warn",
+        "react/jsx-curly-brace-presence": [
+          1,
+          {
+            "props": "never",
+            "children": "never",
+            "propElementValues": "always"
+          }
+        ]
+      }
+    }
+  ]
+}
