@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useGetTopicInformation } from 'services';
+import { shallow } from 'zustand/shallow';
 
 import {
   Box,
@@ -18,6 +19,8 @@ import {
 
 import { RefreshButton } from 'components/RefreshButton';
 
+import { useSearchParameter } from 'hooks/storages/useSearchParameter';
+
 import TopicDetailConfiguration from './TopicDetailConfiguration';
 import TopicDetailConsumer from './TopicDetailConsumer';
 import TopicDetailMessage from './TopicDetailMessage';
@@ -26,6 +29,14 @@ import TopicDetailPublish from './TopicDetailPublish';
 const TopicDetail = () => {
   const location = useLocation();
   const topic_id = location.pathname.replace('/topics/', '');
+  const searchParameter = useSearchParameter((x) => x.request, shallow);
+  const changeSearchParameter = useSearchParameter((x) => x.change);
+
+  changeSearchParameter({
+    ...searchParameter,
+    topicName: topic_id,
+  });
+
   const { isLoading, data, refetch, isRefetching } =
     useGetTopicInformation(topic_id);
 
