@@ -24,13 +24,14 @@ export const TopicDetailConfiguration = ({ topic_name }: any) => {
         </Thead>
         <Tbody>
           {data !== undefined &&
-            data.map((item: any) => (
-              <Tr>
+            data.map((item: any, index: number) => (
+              <Tr key={index}>
                 {Object.keys(item).map((item: any) => (
-                  <Td>{item}</Td>
+                  <Td key="0">{item}</Td>
                 ))}
                 {Object.values(item).map((item: any) => (
                   <Td
+                    key="1"
                     maxW="xl"
                     overflow="hidden"
                     whiteSpace="nowrap"

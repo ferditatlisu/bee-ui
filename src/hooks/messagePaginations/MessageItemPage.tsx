@@ -1,4 +1,5 @@
 import { usePagination } from '@ajna/pagination';
+import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
@@ -12,14 +13,18 @@ import {
 
 import { PaginationBottom } from 'hooks/paginations/paginationBottom';
 
+import { MessageItemProps } from './MessageItem';
+
 interface ItemPageProps {
-  pageItems: any;
-  MessageItem: any;
+  pageItems: any[];
+  MessageItem: React.FC<MessageItemProps>;
+  messageItemProps: Omit<MessageItemProps, 'message'>;
 }
 
 function MessageItemPage({
   pageItems,
-  MessageItem: CustomPage,
+  MessageItem,
+  messageItemProps,
 }: ItemPageProps): JSX.Element {
   // states
   const {
@@ -46,9 +51,8 @@ function MessageItemPage({
   return (
     <Flex className="flex-col" width="100%">
       <Box borderWidth="1px" borderRadius="lg" p="2" maxWidth="100%">
-        {/* 50 */}
         <TableContainer whiteSpace="unset">
-          <Table size="sm" maxWidth="100%" overflowX="hidden">
+          <Table size="xs" maxWidth="100%" overflowX="hidden">
             <Thead>
               <Tr>
                 <Th>Offset</Th>
@@ -56,6 +60,7 @@ function MessageItemPage({
                 <Th>Timestamp</Th>
                 <Th>Key</Th>
                 <Th>Value</Th>
+                <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -64,9 +69,10 @@ function MessageItemPage({
                 pageItems
                   .slice(offset, offset + pageSize)
                   .map((item: any) => (
-                    <CustomPage
+                    <MessageItem
+                      {...messageItemProps}
                       key={`${item['offset']}-${item['partition']}`}
-                      pageItem={{ item }}></CustomPage>
+                      message={item}></MessageItem>
                   ))}
             </Tbody>
           </Table>

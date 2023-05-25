@@ -26,15 +26,16 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import MessagePublishAlertDialog from 'components/MessagePublishAlertDialog';
+
 import { usePublishMessageMutation } from 'hooks/services/usePublishMessageMutation';
 
 export const TopicDetailPublish = ({ topic_name }: any) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [eventMessage, setEventMessage] = useState('');
   const [eventHeader, setEventHeader] = useState('');
   const [eventKey, setEventKey] = useState('');
-
-  const cancelRef = React.useRef(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const textAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEventMessage(event.target.value);
@@ -63,7 +64,9 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
   useEffect(() => {
     if (data !== undefined && !isLoading && !isRefetching) {
       setEventMessage(JSON.stringify(data['value'], null, 2));
-      setEventHeader(JSON.stringify(data['headers'], null, 2));
+      if (data['headers'] !== null)
+        setEventHeader(JSON.stringify(data['headers'], null, 2));
+
       setEventKey(data['key']);
     }
   }, [data, isLoading, isRefetching]);
@@ -79,6 +82,7 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
   };
 
   const onClickedButtonOk = () => {
+    debugger;
     var headerObject =
       eventHeader !== ''
         ? JSON.parse(JSON.stringify(eventHeader)).replaceAll('\n', '')
@@ -176,29 +180,11 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
           </TableCaption>
         </Table>
       </TableContainer>
-      <AlertDialog
-        motionPreset="slideInBottom"
+      <MessagePublishAlertDialog
         isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
+        onButtonClickedOk={onClickedButtonOk}
         onClose={onClose}
-        isCentered>
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader>Are you sure?</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-            Your message will publish to the Topic
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button colorScheme="red" ref={cancelRef} onClick={onClose}>
-              No
-            </Button>
-            <Button colorScheme="green" ml={3} onClick={onClickedButtonOk}>
-              Publish
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      />
     </>
   );
 };

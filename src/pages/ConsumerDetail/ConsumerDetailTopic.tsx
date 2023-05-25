@@ -32,7 +32,6 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
     useGetConsumerGroupByGroupId(group_id);
 
   const onButtonClicked = (topic_id: string) => {
-    console.log(topic_id);
     navigate(`/topics/${topic_id}`);
   };
 

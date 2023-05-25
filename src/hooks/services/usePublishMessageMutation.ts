@@ -9,14 +9,14 @@ interface PublishMessageDto {
 export const usePublishMessageMutation = (topicName: string) => {
   const { mutate } = useMutation({
     mutationFn: async ({ key, headers, value }: PublishMessageDto) => {
-      debugger;
       var defaultHeaders: HeadersInit | undefined;
-      if (headers !== undefined) {
+      if (!!headers) {
+        debugger;
         defaultHeaders = { headers };
       }
 
       var url = `${KB_ENVIRONMENTS.KB_API}/${topicName}/publish-message`;
-      if (key !== undefined) {
+      if (!!key) {
         url += `?key=${key}`;
       }
 

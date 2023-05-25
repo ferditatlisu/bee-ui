@@ -48,9 +48,17 @@ export const TopicDetailMessage = ({ topic_name, partition_count }: any) => {
             <Select onChange={onSelectChangedPartition}>
               {(() => {
                 const options = [];
-                options.push(<option value={undefined}>ALL</option>);
+                options.push(
+                  <option key="-1" value={undefined}>
+                    ALL
+                  </option>
+                );
                 for (let i = 0; i < partition_count; i++) {
-                  options.push(<option value={i}>{i}</option>);
+                  options.push(
+                    <option key={i} value={i}>
+                      {i}
+                    </option>
+                  );
                 }
                 return options;
               })()}
@@ -79,7 +87,10 @@ export const TopicDetailMessage = ({ topic_name, partition_count }: any) => {
       {data !== undefined && Array.isArray(data) && (
         <MessageItemPage
           pageItems={data}
-          MessageItem={MessageItem}></MessageItemPage>
+          MessageItem={MessageItem}
+          messageItemProps={{
+            topicName: topic_name,
+          }}></MessageItemPage>
       )}
     </Flex>
   );

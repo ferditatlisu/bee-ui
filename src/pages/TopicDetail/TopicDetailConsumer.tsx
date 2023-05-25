@@ -32,7 +32,6 @@ export const TopicDetailConsumer = ({ topic_name }: any) => {
     useGetConsumerGroupByTopic(topic_name);
 
   const onButtonClicked = (group_id: string) => {
-    console.log(group_id);
     navigate(`/consumers/${group_id}`);
   };
 
@@ -69,8 +68,8 @@ export const TopicDetailConsumer = ({ topic_name }: any) => {
       <Accordion allowMultiple>
         {data !== undefined &&
           Array.isArray(data) &&
-          data.map((item: any) => (
-            <AccordionItem>
+          data.map((item: any, index: number) => (
+            <AccordionItem key={index}>
               <AccordionButton pb={1}>
                 <AccordionIcon />
                 <HStack spacing={1}>
@@ -82,6 +81,7 @@ export const TopicDetailConsumer = ({ topic_name }: any) => {
                     lag: {item['total_lag']}
                   </Tag>
                   <Button
+                    as="div"
                     onClick={() => onButtonClicked(item['group_id'])}
                     rightIcon={<ArrowForwardIcon />}
                     colorScheme="gray"
@@ -107,6 +107,11 @@ export const TopicDetailConsumer = ({ topic_name }: any) => {
                         {item['partitions'] !== undefined &&
                           item['partitions'].sort().map((partition: any) => (
                             <Tr
+                              key={
+                                partition['topic_offset'] +
+                                '_' +
+                                partition['partition']
+                              }
                               backgroundColor={
                                 partition['lag'] > 0 ? 'red' : 'white'
                               }>

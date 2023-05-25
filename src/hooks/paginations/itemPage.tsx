@@ -40,8 +40,10 @@ function ItemPage({ pageItems, CustomPage }: ItemPageProps): JSX.Element {
               Array.isArray(pageItems) &&
               pageItems
                 .slice(offset, offset + pageSize)
-                .map((item: any) => (
-                  <CustomPage pageItem={{ item }}></CustomPage>
+                .map((item: any, index: number) => (
+                  <CustomPage
+                    key={index + '_' + currentPage}
+                    pageItem={{ item }}></CustomPage>
                 ))}
             {pagesCount > 1 && (
               <PaginationBottom

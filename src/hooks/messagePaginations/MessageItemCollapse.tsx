@@ -1,3 +1,5 @@
+import ReactJson from 'react-json-view';
+
 import {
   Flex,
   Tab,
@@ -38,7 +40,14 @@ export const MessageItemCollapse = (messageItem: any) => {
         <TabPanels>
           <TabPanel>
             <Flex>
-              <pre>{JSON.stringify(message['value'], null, 2)}</pre>
+              <ReactJson
+                src={message['value']}
+                enableClipboard={false}
+                displayDataTypes={false}
+                iconStyle="square"
+                collapsed={1}
+                collapseStringsAfterLength={100}
+              />
             </Flex>
           </TabPanel>
           <TabPanel>

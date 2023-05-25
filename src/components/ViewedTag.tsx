@@ -23,7 +23,7 @@ const ViewedTags = ({
     <Flex>
       <Wrap spacing={2}>
         {viewedData.map((viewedName: string) => (
-          <WrapItem>
+          <WrapItem key={viewedName}>
             <Tag
               size="md"
               key={viewedName}

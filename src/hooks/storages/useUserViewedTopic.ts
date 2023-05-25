@@ -16,7 +16,6 @@ export const useUserViewedTopics = create(
         if (topics.length > 5) topics.shift();
 
         set({ viewedTopics: topics });
-        console.log(topics);
       },
 
       removeViewedTopic: (topic: string) => {
