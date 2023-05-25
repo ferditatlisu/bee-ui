@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 
 import SearchItemPage from 'hooks/paginations/searchItemPage';
-import { useDeleteSearch } from 'hooks/services/useDeleteSearch';
+import { useDeleteSearchMutation } from 'hooks/services/useDeleteSearch';
 import { useSearchParameter } from 'hooks/storages/useSearchParameter';
 
 import SearchItem from './SearchItem';
@@ -35,7 +35,7 @@ const Search = () => {
   const changeParameter = useSearchParameter((x) => x.change);
   const [refetchInterval, setRefetchInterval] = useState(0);
   const [isSearchingEnabled, setIsSearchingEnabled] = useState(false);
-  const { mutate } = useDeleteSearch();
+  const { mutate } = useDeleteSearchMutation();
   const {
     isLoading,
     data: response,

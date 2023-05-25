@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query';
 
-export const useDeleteCopyEvent = () => {
+export const useDeleteCopyEventMutation = () => {
   const { mutateAsync } = useMutation({
     mutationFn: async ({ fromTopic, toTopic }: any) => {
       var url = `${KB_ENVIRONMENTS.KB_API}/copy-event?fromTopic=${fromTopic}&toTopic=${toTopic}`;

@@ -99,6 +99,7 @@ export const useGetTopMessages = ({
       return res.json();
     },
     keepPreviousData: true,
+    refetchOnWindowFocus: false,
   });
 
   return { isLoading, data, refetch, isRefetching };
@@ -124,6 +125,7 @@ export const useGetMessage = (
     keepPreviousData: true,
     staleTime: Infinity,
     enabled: enabled,
+    refetchOnWindowFocus: false,
   });
 
   return { isLoading, data, refetch, isRefetching };
@@ -140,6 +142,7 @@ export const useGetTopicConfiguration = (topic_name: string) => {
     },
     keepPreviousData: true,
     staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return { isLoading, data };
@@ -156,6 +159,7 @@ export const useGetTopicInformation = (topic_name: string) => {
     },
     keepPreviousData: true,
     staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return { isLoading, data, refetch, isRefetching };
@@ -172,6 +176,7 @@ export const useGetConsumerInformation = (group_id: string) => {
     },
     keepPreviousData: true,
     staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return { isLoading, data, refetch, isRefetching };
@@ -188,6 +193,7 @@ export const useGetConsumerGroupByGroupId = (group_id: string) => {
     },
     keepPreviousData: true,
     staleTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   return { isLoading, data, refetch, isRefetching };
@@ -225,6 +231,7 @@ export const useGetSimulationChangeOffset = ({
       return res.json();
     },
     enabled: false,
+    refetchOnWindowFocus: false,
     retry: 0,
     onError: (error: Error) => {
       toast({

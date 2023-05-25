@@ -18,6 +18,7 @@ export const useCopyEventQuery = ({ fromTopic, toTopic }: CopyEventRequest) => {
     },
     enabled: false,
     retry: false,
+    refetchOnWindowFocus: false,
     onError: () => {},
     onSuccess: () => {},
   });

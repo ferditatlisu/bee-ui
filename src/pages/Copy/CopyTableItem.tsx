@@ -2,7 +2,7 @@ import { DeleteIcon, RepeatIcon } from '@chakra-ui/icons';
 import { IconButton, Spinner, Td, Tooltip, Tr } from '@chakra-ui/react';
 
 import { useCopyEventMutation } from 'hooks/services/useCopyEventMutation';
-import { useDeleteCopyEvent } from 'hooks/services/useDeleteCopyEventQuery';
+import { useDeleteCopyEventMutation } from 'hooks/services/useDeleteCopyEventMutation';
 
 export interface CopyEventModel {
   from_topic: string;
@@ -20,7 +20,7 @@ interface CopyTableItemDto {
 }
 
 const CopyTableItem = ({ pageItem, actionCallback }: CopyTableItemDto) => {
-  const { mutateAsync } = useDeleteCopyEvent();
+  const { mutateAsync } = useDeleteCopyEventMutation();
   const { mutate } = useCopyEventMutation();
 
   const onButtonClickedDelete = () => {
