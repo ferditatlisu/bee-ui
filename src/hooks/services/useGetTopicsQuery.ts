@@ -8,7 +8,7 @@ export const useGetTopics = () => {
     queryKey: ['topics', kafkaCluster.id],
     queryFn: async () => {
       const res = await fetch(`${KB_ENVIRONMENTS.KB_API}/topics`, {
-        headers: { kafka_id: kafkaCluster.id },
+        headers: { 'kafka-id': kafkaCluster.id },
       });
       return res.json();
     },

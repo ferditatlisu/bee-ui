@@ -8,7 +8,7 @@ export const useChangeOffsetMutation = () => {
       const res = await fetch(`${KB_ENVIRONMENTS.KB_API}/put-change-offset`, {
         body: JSON.stringify(request),
         method: 'PUT',
-        headers: { kafka_id: '0' },
+        headers: { 'kafka-id': '0' },
       });
 
       if (!res.ok) {

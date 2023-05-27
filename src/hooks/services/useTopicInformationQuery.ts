@@ -10,7 +10,7 @@ export const useTopicInformationQuery = (topic_name: string) => {
       const res = await fetch(
         `${KB_ENVIRONMENTS.KB_API}/get-topic-info?topic=${topic_name}`,
         {
-          headers: { kafka_id: kafkaCluster.id },
+          headers: { 'kafka-id': kafkaCluster.id },
         }
       );
       return res.json();

@@ -8,7 +8,7 @@ export const useGetConsumers = () => {
     queryKey: ['consumers', kafkaCluster.id],
     queryFn: async () => {
       const res = await fetch(`${KB_ENVIRONMENTS.KB_API}/consumers`, {
-        headers: { kafka_id: kafkaCluster.id },
+        headers: { 'kafka-id': kafkaCluster.id },
       });
       return res.json();
     },

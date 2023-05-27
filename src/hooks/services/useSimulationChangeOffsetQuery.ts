@@ -26,7 +26,7 @@ export const useSimulationChangeOffsetQuery = ({
       if (value !== undefined && value > -1) url += `&value=${value}`;
 
       const res = await fetch(url, {
-        headers: { kafka_id: kafkaCluster.id },
+        headers: { 'kafka-id': kafkaCluster.id },
       });
       if (!res.ok) {
         const data = await res.json();

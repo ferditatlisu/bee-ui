@@ -18,7 +18,7 @@ export const useMessageQuery = (
     queryKey: ['get-message', topic_name, offset, partition],
     queryFn: async () => {
       const res = await fetch(url, {
-        headers: { kafka_id: kafkaCluster.id },
+        headers: { 'kafka-id': kafkaCluster.id },
       });
       return res.json();
     },

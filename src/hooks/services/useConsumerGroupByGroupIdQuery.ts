@@ -10,7 +10,7 @@ export const useConsumerGroupByGroupIdQuery = (group_id: string) => {
       const res = await fetch(
         `${KB_ENVIRONMENTS.KB_API}/consumer-group-by-group-id?group_id=${group_id}`,
         {
-          headers: { kafka_id: kafkaCluster.id },
+          headers: { 'kafka-id': kafkaCluster.id },
         }
       );
       return res.json();

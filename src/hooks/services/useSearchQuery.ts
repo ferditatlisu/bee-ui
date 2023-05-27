@@ -14,7 +14,7 @@ export const useSearchQuery = (
       const res = await fetch(
         `${KB_ENVIRONMENTS.KB_API}/search?topicName=${inputs.topicName}&value=${inputs.value}`,
         {
-          headers: { kafka_id: kafkaCluster.id },
+          headers: { 'kafka-id': kafkaCluster.id },
         }
       );
       return res.json();
