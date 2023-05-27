@@ -21,10 +21,8 @@ import {
 
 import SearchItemPage from 'hooks/paginations/searchItemPage';
 import { useDeleteSearchMutation } from 'hooks/services/useDeleteSearch';
-import {
-  SearchRequest,
-  useSearchParameter,
-} from 'hooks/storages/useSearchParameter';
+import { useSearchQuery } from 'hooks/services/useSearchQuery';
+import { useSearchParameter } from 'hooks/storages/useSearchParameter';
 
 import SearchItem from './SearchItem';
 
@@ -43,7 +41,7 @@ const Search = () => {
     data: response,
     refetch,
     isRefetching,
-  } = useGetSearch(parameters, refetchInterval, isSearchingEnabled, () =>
+  } = useSearchQuery(parameters, refetchInterval, isSearchingEnabled, () =>
     onSuccessRequest()
   );
 
@@ -225,11 +223,3 @@ const Search = () => {
 };
 
 export default Search;
-function useGetSearch(
-  parameters: SearchRequest,
-  refetchInterval: number,
-  isSearchingEnabled: boolean,
-  arg3: () => void
-): { isLoading: any; data: any; refetch: any; isRefetching: any } {
-  throw new Error('Function not implemented.');
-}
