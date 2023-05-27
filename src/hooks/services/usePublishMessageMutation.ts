@@ -11,7 +11,6 @@ export const usePublishMessageMutation = (topicName: string) => {
     mutationFn: async ({ key, headers, value }: PublishMessageDto) => {
       var defaultHeaders: HeadersInit | undefined;
       if (!!headers) {
-        debugger;
         defaultHeaders = { headers };
       }
 

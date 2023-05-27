@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useGetTopMessages } from 'services';
 
 import { Flex, HStack, Select, VStack } from '@chakra-ui/react';
 
@@ -7,12 +6,10 @@ import { RefreshButton } from 'components/RefreshButton';
 
 import MessageItem from 'hooks/messagePaginations/MessageItem';
 import MessageItemPage from 'hooks/messagePaginations/MessageItemPage';
-
-export interface TopicMessageDto {
-  topic: string;
-  size: number | undefined;
-  partition: number | undefined;
-}
+import {
+  TopicMessageDto,
+  useTopMessagesQuery,
+} from 'hooks/services/useTopMessagesQuery';
 
 export const TopicDetailMessage = ({ topic_name, partition_count }: any) => {
   const [requestParam, setRequestParam] = useState<TopicMessageDto>({
@@ -21,7 +18,7 @@ export const TopicDetailMessage = ({ topic_name, partition_count }: any) => {
     partition: undefined,
   });
   const { isLoading, data, refetch, isRefetching } =
-    useGetTopMessages(requestParam);
+    useTopMessagesQuery(requestParam);
 
   const onSelectChangedPartition = (
     event: React.ChangeEvent<HTMLSelectElement>

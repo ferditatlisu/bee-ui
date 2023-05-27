@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetSimulationChangeOffset } from 'services';
 
 import {
   AlertDialog,
@@ -33,6 +32,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useChangeOffsetMutation } from 'hooks/services/useChangeOffsetMutation';
+import { useSimulationChangeOffsetQuery } from 'hooks/services/useSimulationChangeOffsetQuery';
 import { useOffsetParameter } from 'hooks/storages/useOffsetParameter';
 
 const Offset = () => {
@@ -44,7 +44,7 @@ const Offset = () => {
 
   const { mutate } = useChangeOffsetMutation();
   const { isLoading, data, refetch, isRefetching } =
-    useGetSimulationChangeOffset(parameters);
+    useSimulationChangeOffsetQuery(parameters);
   const cancelRef = React.useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 

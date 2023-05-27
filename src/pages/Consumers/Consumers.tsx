@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetConsumers } from 'services';
 
 import { Flex, Input, Text } from '@chakra-ui/react';
 
 import ViewedTags from 'components/ViewedTag';
 
 import ItemPage from 'hooks/paginations/itemPage';
+import { useGetConsumers } from 'hooks/services/useGetConsumersQuery';
 import { useUserViewedGroups } from 'hooks/storages/useUserViewedGroup';
 import { useDebounce } from 'hooks/util/useDebounce';
 

@@ -1,5 +1,3 @@
-import { useGetTopicConfiguration } from 'services';
-
 import {
   Table,
   TableContainer,
@@ -10,8 +8,10 @@ import {
   Tr,
 } from '@chakra-ui/react';
 
+import { useTopicConfigurationQuery } from 'hooks/services/useTopicConfigurationQuery';
+
 export const TopicDetailConfiguration = ({ topic_name }: any) => {
-  const { isLoading, data } = useGetTopicConfiguration(topic_name);
+  const { isLoading, data } = useTopicConfigurationQuery(topic_name);
 
   return (
     <TableContainer maxWidth="100%">

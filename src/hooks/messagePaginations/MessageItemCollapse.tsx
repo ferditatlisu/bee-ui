@@ -52,7 +52,7 @@ export const MessageItemCollapse = (messageItem: any) => {
           </TabPanel>
           <TabPanel>
             <TableContainer maxWidth="100%">
-              <Table size="sm" maxWidth="100%">
+              <Table size="xs" maxWidth="100%">
                 <Thead maxWidth="100%">
                   <Tr>
                     <Th>Key</Th>

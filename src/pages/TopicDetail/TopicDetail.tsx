@@ -1,5 +1,4 @@
 import { useLocation } from 'react-router-dom';
-import { useGetTopicInformation } from 'services';
 import { shallow } from 'zustand/shallow';
 
 import {
@@ -19,6 +18,7 @@ import {
 
 import { RefreshButton } from 'components/RefreshButton';
 
+import { useTopicInformationQuery } from 'hooks/services/useTopicInformationQuery';
 import { useSearchParameter } from 'hooks/storages/useSearchParameter';
 
 import TopicDetailConfiguration from './TopicDetailConfiguration';
@@ -38,7 +38,7 @@ const TopicDetail = () => {
   });
 
   const { isLoading, data, refetch, isRefetching } =
-    useGetTopicInformation(topic_id);
+    useTopicInformationQuery(topic_id);
 
   const onButtonClicked = () => {
     refetch();

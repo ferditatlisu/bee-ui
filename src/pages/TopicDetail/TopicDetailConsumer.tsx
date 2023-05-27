@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useGetConsumerGroupByTopic } from 'services';
 
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import {
@@ -24,12 +23,13 @@ import {
 
 import { RefreshButton } from 'components/RefreshButton';
 
+import { useConsumerGroupByTopicQuery } from 'hooks/services/useConsumerGroupByTopicQuery';
 import SingleMessage from 'hooks/util/SingleMessage';
 
 export const TopicDetailConsumer = ({ topic_name }: any) => {
   const navigate = useNavigate();
   const { isLoading, data, refetch, isRefetching } =
-    useGetConsumerGroupByTopic(topic_name);
+    useConsumerGroupByTopicQuery(topic_name);
 
   const onButtonClicked = (group_id: string) => {
     navigate(`/consumers/${group_id}`);

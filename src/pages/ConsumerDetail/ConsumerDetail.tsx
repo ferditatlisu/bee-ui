@@ -1,5 +1,4 @@
 import { useLocation } from 'react-router-dom';
-import { useGetConsumerInformation } from 'services';
 
 import {
   Box,
@@ -13,12 +12,14 @@ import {
 
 import { RefreshButton } from 'components/RefreshButton';
 
+import { useConsumerInformationQuery } from 'hooks/services/useConsumerInformationQuery';
+
 import ConsumerDetailTopic from './ConsumerDetailTopic';
 const ConsumerDetail = () => {
   const location = useLocation();
   const group_id = location.pathname.replace('/consumers/', '');
   const { isLoading, data, refetch, isRefetching } =
-    useGetConsumerInformation(group_id);
+    useConsumerInformationQuery(group_id);
 
   const onButtonClicked = () => {
     refetch();

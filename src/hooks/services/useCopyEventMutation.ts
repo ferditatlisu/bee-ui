@@ -2,7 +2,9 @@ import { useMutation } from 'react-query';
 
 export interface PostCopyEventRequest {
   fromTopic: string;
+  fromId: number;
   toTopic: string;
+  toId: number;
 }
 
 export const useCopyEventMutation = () => {

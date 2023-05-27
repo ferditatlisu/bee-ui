@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useGetMessage } from 'services';
 
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import {
@@ -15,6 +14,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import { useMessageQuery } from 'hooks/services/useMessageQuery';
+
 interface SingleMessageProps {
   TopicName: string;
   Partition: number;
@@ -24,7 +25,7 @@ interface SingleMessageProps {
 function SingleMessage({ TopicName, Partition, Offset }: SingleMessageProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [getMessageEnabled, setGetMessageEnabled] = useState(false);
-  const { isLoading, data, refetch, isRefetching } = useGetMessage(
+  const { isLoading, data, refetch, isRefetching } = useMessageQuery(
     TopicName,
     Partition,
     Offset,

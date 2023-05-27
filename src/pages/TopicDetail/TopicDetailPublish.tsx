@@ -1,16 +1,7 @@
-import { useEffect, useState } from 'react';
-import React from 'react';
-import { useGetMessage } from 'services';
+import React, { useEffect, useState } from 'react';
 
 import { DownloadIcon } from '@chakra-ui/icons';
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Button,
   Flex,
   Input,
@@ -28,6 +19,7 @@ import {
 
 import MessagePublishAlertDialog from 'components/MessagePublishAlertDialog';
 
+import { useMessageQuery } from 'hooks/services/useMessageQuery';
 import { usePublishMessageMutation } from 'hooks/services/usePublishMessageMutation';
 
 export const TopicDetailPublish = ({ topic_name }: any) => {
@@ -52,7 +44,7 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
   };
 
   const [isSearchingEnabled, setIsSearchingEnabled] = useState(false);
-  const { isLoading, data, refetch, isRefetching } = useGetMessage(
+  const { isLoading, data, refetch, isRefetching } = useMessageQuery(
     topic_name,
     undefined,
     undefined,

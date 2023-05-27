@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useGetSearch } from 'services';
 
 import { DeleteIcon } from '@chakra-ui/icons';
 import {
@@ -22,7 +21,10 @@ import {
 
 import SearchItemPage from 'hooks/paginations/searchItemPage';
 import { useDeleteSearchMutation } from 'hooks/services/useDeleteSearch';
-import { useSearchParameter } from 'hooks/storages/useSearchParameter';
+import {
+  SearchRequest,
+  useSearchParameter,
+} from 'hooks/storages/useSearchParameter';
 
 import SearchItem from './SearchItem';
 
@@ -223,3 +225,11 @@ const Search = () => {
 };
 
 export default Search;
+function useGetSearch(
+  parameters: SearchRequest,
+  refetchInterval: number,
+  isSearchingEnabled: boolean,
+  arg3: () => void
+): { isLoading: any; data: any; refetch: any; isRefetching: any } {
+  throw new Error('Function not implemented.');
+}
