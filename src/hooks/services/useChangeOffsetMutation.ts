@@ -1,14 +1,16 @@
 import { useMutation } from 'react-query';
 
 import { ChangeOffsetRequest } from 'hooks/storages/useOffsetParameter';
+import { useUserKafkaCluster } from 'hooks/storages/useUserKafkaCluster';
 
 export const useChangeOffsetMutation = () => {
+  const kafkaCluster = useUserKafkaCluster((x) => x.kafkaCluster);
   const { mutate, error } = useMutation<unknown, unknown, ChangeOffsetRequest>({
     mutationFn: async (request) => {
       const res = await fetch(`${KB_ENVIRONMENTS.KB_API}/put-change-offset`, {
         body: JSON.stringify(request),
         method: 'PUT',
-        headers: { 'kafka-id': '0' },
+        headers: { 'kafka-id': kafkaCluster.id },
       });
 
       if (!res.ok) {

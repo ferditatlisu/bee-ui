@@ -1,5 +1,7 @@
 import { useMutation } from 'react-query';
 
+import { useUserKafkaCluster } from 'hooks/storages/useUserKafkaCluster';
+
 interface PublishMessageDto {
   key: string | undefined;
   headers: string | undefined;
@@ -7,6 +9,7 @@ interface PublishMessageDto {
 }
 
 export const usePublishMessageMutation = (topicName: string) => {
+  const kafkaCluster = useUserKafkaCluster((x) => x.kafkaCluster);
   const { mutate } = useMutation({
     mutationFn: async ({ key, headers, value }: PublishMessageDto) => {
       var defaultHeaders: HeadersInit | undefined;
@@ -22,7 +25,7 @@ export const usePublishMessageMutation = (topicName: string) => {
       const res = await fetch(url, {
         body: value,
         method: 'POST',
-        headers: defaultHeaders,
+        headers: { ...defaultHeaders, 'kafka-id': kafkaCluster.id },
       });
       return res.json();
     },
