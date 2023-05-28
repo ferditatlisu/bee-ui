@@ -17,6 +17,7 @@ export const useConsumerGroupByTopicQuery = (topic_name: string) => {
     },
     keepPreviousData: true,
     staleTime: Infinity,
+    retry: true,
   });
 
   return { isLoading, data, refetch, isRefetching };

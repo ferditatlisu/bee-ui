@@ -16,6 +16,7 @@ export const useTopicInformationQuery = (topic_name: string) => {
       return res.json();
     },
     keepPreviousData: true,
+    retry: true,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
