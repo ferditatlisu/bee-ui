@@ -1,15 +1,20 @@
 import { useMutation } from 'react-query';
 
+import { useUserKafkaCluster } from 'hooks/storages/useUserKafkaCluster';
+
 export interface PostCopyEventRequest {
   fromTopic: string;
-  fromId: number;
+  fromId: string;
   toTopic: string;
-  toId: number;
+  toId: string;
 }
 
 export const useCopyEventMutation = () => {
+  const kafkaCluster = useUserKafkaCluster((x) => x.kafkaCluster);
   const { mutate } = useMutation<unknown, unknown, PostCopyEventRequest>({
     mutationFn: async (request) => {
+      request.fromId = kafkaCluster.id;
+      request.toId = kafkaCluster.id;
       const res = await fetch(`${KB_ENVIRONMENTS.KB_API}/copy-event`, {
         body: JSON.stringify(request),
         method: 'POST',

@@ -3,9 +3,9 @@ import { persist } from 'zustand/middleware';
 
 export interface CopyEventRequest {
   fromTopic: string;
-  fromId: number;
+  fromId: string;
   toTopic: string;
-  toId: number;
+  toId: string;
 }
 
 interface CopyParameter {
@@ -18,9 +18,9 @@ export const useCopyParameter = create(
     (set, get) => ({
       copyRequest: {
         fromTopic: '',
-        fromId: 0,
+        fromId: '0',
         toTopic: '',
-        toId: 0,
+        toId: '0',
       },
       change: (data: CopyEventRequest) => {
         set({ copyRequest: data });

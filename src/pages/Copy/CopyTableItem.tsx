@@ -47,9 +47,9 @@ const CopyTableItem = ({ pageItem, actionCallback }: CopyTableItemDto) => {
           mutate(
             {
               fromTopic: pageItem.from_topic,
-              fromId: 0,
+              fromId: '0',
               toTopic: pageItem.to_topic,
-              toId: 0,
+              toId: '0',
             },
             {
               onSuccess: () => {
