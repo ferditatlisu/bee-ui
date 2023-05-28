@@ -22,10 +22,11 @@ export const Navbar = () => {
 
   return (
     <Box as="section">
-      <Box as="nav" bg="bg-surface" boxShadow="sm">
-        <Flex justify="space-between" flex="1" justifyContent="flex-end">
+      <Box as="nav">
+        <Flex justifyContent="flex-end" marginRight="1">
           {data !== undefined && (
             <Select
+              size="sm"
               onChange={onSelectChanged}
               maxWidth="10%"
               defaultValue={kafkaCluster.id}>
