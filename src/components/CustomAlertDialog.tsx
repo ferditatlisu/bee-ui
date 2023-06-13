@@ -13,11 +13,15 @@ import {
 } from '@chakra-ui/react';
 interface MessagePublishAlertDialogProps extends UseDisclosureProps {
   onButtonClickedOk: () => void;
+  message: string;
+  okText: string;
 }
-const MessagePublishAlertDialog = ({
+const CustomAlertDialog = ({
   isOpen = false,
   onClose = () => {},
   onButtonClickedOk,
+  message,
+  okText,
 }: MessagePublishAlertDialogProps) => {
   const cancelRef = React.useRef(null);
   return (
@@ -31,15 +35,13 @@ const MessagePublishAlertDialog = ({
       <AlertDialogContent>
         <AlertDialogHeader>Are you sure?</AlertDialogHeader>
         <AlertDialogCloseButton />
-        <AlertDialogBody>
-          Your message will publish to the Topic
-        </AlertDialogBody>
+        <AlertDialogBody>{message}</AlertDialogBody>
         <AlertDialogFooter>
           <Button colorScheme="red" ref={cancelRef} onClick={onClose}>
-            No
+            Cancel
           </Button>
           <Button colorScheme="green" ml={3} onClick={onButtonClickedOk}>
-            Publish
+            {okText}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -47,4 +49,4 @@ const MessagePublishAlertDialog = ({
   );
 };
 
-export default MessagePublishAlertDialog;
+export default CustomAlertDialog;

@@ -13,6 +13,8 @@ export const useConsumerGroupByGroupIdQuery = (group_id: string) => {
           headers: { 'kafka-id': kafkaCluster.id },
         }
       );
+      if (!res.ok) return undefined;
+
       return res.json();
     },
     keepPreviousData: true,

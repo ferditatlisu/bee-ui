@@ -35,10 +35,7 @@ const Sidebar = () => {
         </NavLink>
       ))}
       <Flex style={{ marginTop: 'auto' }}>
-        <Link
-          href="slack://channel?team=T03Q89XFN&id=C058R54EG73"
-          isExternal
-          minWidth="100%">
+        <Link href={KB_ENVIRONMENTS.SLACK_URL} isExternal minWidth="100%">
           <Button
             _hover={{
               backgroundColor: '#00000047',

@@ -14,7 +14,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import MessagePublishAlertDialog from 'components/MessagePublishAlertDialog';
+import CustomAlertDialog from 'components/CustomAlertDialog';
 
 import { usePublishMessageMutation } from 'hooks/services/usePublishMessageMutation';
 
@@ -107,10 +107,12 @@ export const MessageItem = ({ message, topicName }: MessageItemProps) => {
           </Td>
         </Tr>
       )}
-      <MessagePublishAlertDialog
+      <CustomAlertDialog
         isOpen={isOpen}
         onButtonClickedOk={onButtonClickedPublish}
         onClose={onClose}
+        message="Your message will publish to the Topic"
+        okText="Publish"
       />
     </>
   );
