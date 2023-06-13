@@ -1,45 +1,30 @@
-import {
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { Table, TableContainer, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { useTopicConfigurationQuery } from 'hooks/services/useTopicConfigurationQuery';
 
-export const TopicDetailConfiguration = ({ topic_name }: any) => {
-  const { isLoading, data } = useTopicConfigurationQuery(topic_name);
+import TopicDetailConfigurationItem from './TopicDetailConfigurationItem';
 
+export const TopicDetailConfiguration = ({ topic_name }: any) => {
+  const { isLoading, data, refetch } = useTopicConfigurationQuery(topic_name);
   return (
     <TableContainer maxWidth="100%">
-      <Table size="sm" maxWidth="100%">
+      <Table variant="striped" size="sm" maxWidth="100%">
         <Thead maxWidth="100%">
           <Tr>
             <Th>Prodperty</Th>
             <Th>Value</Th>
+            <Th>Edit</Th>
           </Tr>
         </Thead>
         <Tbody>
           {data !== undefined &&
             data.map((item: any, index: number) => (
-              <Tr key={index}>
-                {Object.keys(item).map((item: any) => (
-                  <Td key="0">{item}</Td>
-                ))}
-                {Object.values(item).map((item: any) => (
-                  <Td
-                    key="1"
-                    maxW="xl"
-                    overflow="hidden"
-                    whiteSpace="nowrap"
-                    textOverflow="ellipsis">
-                    {item}
-                  </Td>
-                ))}
-              </Tr>
+              <TopicDetailConfigurationItem
+                item={item}
+                index={index}
+                topicName={topic_name}
+                refetch={refetch}
+              />
             ))}
         </Tbody>
       </Table>

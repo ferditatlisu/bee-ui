@@ -48,14 +48,10 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
 
   return (
     <Flex className="flex-col flex-1">
-      <HStack m="2">
-        <Box>
-          <RefreshButton
-            isLoading={isLoading || isRefetching}
-            onButtonClicked={onButtonClickedRefresh}></RefreshButton>
-        </Box>
+      <HStack m="1">
         {data !== undefined && (
           <Tag
+            marginLeft={4}
             size="md"
             variant="solid"
             colorScheme={getTotalLag(data) > 0 ? 'red' : 'green'}>
@@ -63,14 +59,19 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
             {getTotalLag(data)}
           </Tag>
         )}
+        <Box style={{ marginLeft: 'auto' }} paddingRight={4}>
+          <RefreshButton
+            isLoading={isLoading || isRefetching}
+            onButtonClicked={onButtonClickedRefresh}></RefreshButton>
+        </Box>
       </HStack>
       <Accordion allowMultiple>
         {data !== undefined &&
-          data.map((item: any) => (
-            <AccordionItem>
-              <AccordionButton pb={1}>
+          data.map((item: any, index: number) => (
+            <AccordionItem key={index}>
+              <AccordionButton>
                 <AccordionIcon />
-                <HStack spacing={2}>
+                <Flex className="flex-row flex-1" gap={1}>
                   <Box>{item['topic_name']}</Box>
                   <Tag
                     size="md"
@@ -82,17 +83,19 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
                     assigned partitions: {item['partitions'].length}
                   </Tag>
                   <Button
+                    style={{ marginLeft: 'auto' }}
+                    as="div"
                     onClick={() => onButtonClicked(item['topic_name'])}
                     rightIcon={<ArrowForwardIcon />}
                     colorScheme="gray"
                     size="xs">
                     View Topic
                   </Button>
-                </HStack>
+                </Flex>
               </AccordionButton>
-              <AccordionPanel pb={1}>
+              <AccordionPanel>
                 <Flex>
-                  <TableContainer>
+                  <TableContainer minWidth="100%">
                     <Table size="sm">
                       <Thead>
                         <Tr>
@@ -100,35 +103,41 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
                           <Th>Topic Offset</Th>
                           <Th>Group Offset</Th>
                           <Th>Lag</Th>
-                          <Th>Detail</Th>
+                          <Th width="100%" textAlign="right">
+                            Detail
+                          </Th>
                         </Tr>
                       </Thead>
                       <Tbody>
-                        {item['partitions'].sort().map((partition: any) => (
-                          <Tr
-                            backgroundColor={
-                              partition['lag'] > 0 ? 'red' : 'white'
-                            }>
-                            <Td>{partition['partition']}</Td>
-                            <Td>{partition['topic_offset']}</Td>
-                            <Td>{partition['group_offset']}</Td>
-                            <Td>{partition['lag']}</Td>
-                            {partition['lag'] > 0 ? (
-                              <Td>
-                                {true && (
-                                  <SingleMessage
-                                    TopicName={item['topic_name']}
-                                    Partition={partition['partition']}
-                                    Offset={
-                                      partition['group_offset']
-                                    }></SingleMessage>
-                                )}
-                              </Td>
-                            ) : (
-                              <Td></Td>
-                            )}
-                          </Tr>
-                        ))}
+                        {item['partitions']
+                          .sort(
+                            (a: any, b: any) => a['partition'] - b['partition']
+                          )
+                          .map((partition: any) => (
+                            <Tr
+                              backgroundColor={
+                                partition['lag'] > 0 ? 'red' : 'white'
+                              }>
+                              <Td>{partition['partition']}</Td>
+                              <Td>{partition['topic_offset']}</Td>
+                              <Td>{partition['group_offset']}</Td>
+                              <Td>{partition['lag']}</Td>
+                              {partition['lag'] > 0 ? (
+                                <Td textAlign="right">
+                                  {true && (
+                                    <SingleMessage
+                                      TopicName={item['topic_name']}
+                                      Partition={partition['partition']}
+                                      Offset={
+                                        partition['group_offset']
+                                      }></SingleMessage>
+                                  )}
+                                </Td>
+                              ) : (
+                                <Td></Td>
+                              )}
+                            </Tr>
+                          ))}
                       </Tbody>
                     </Table>
                   </TableContainer>

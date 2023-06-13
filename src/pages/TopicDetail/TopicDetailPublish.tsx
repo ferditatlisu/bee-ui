@@ -55,18 +55,22 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
 
   useEffect(() => {
     if (data !== undefined && !isLoading && !isRefetching) {
-      setEventMessage(JSON.stringify(data['value'], null, 2));
-      if (data['headers'] !== null)
-        setEventHeader(JSON.stringify(data['headers'], null, 2));
+      if (data['value'] !== undefined)
+        setEventMessage(JSON.stringify(data['value'], null, 2));
 
-      setEventKey(data['key']);
+      if (data['headers'] !== undefined) {
+        if (data['headers'] !== null)
+          setEventHeader(JSON.stringify(data['headers'], null, 2));
+        else setEventHeader('');
+      }
+
+      if (data['key'] !== undefined) setEventKey(data['key']);
     }
   }, [data, isLoading, isRefetching]);
 
   const onClickedButtonGetMessage = () => {
     setIsSearchingEnabled(true);
     refetch();
-    console.log('onClickedButtonGetMessage');
   };
 
   const onClickedButtonPublish = () => {

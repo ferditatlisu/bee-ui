@@ -1,9 +1,10 @@
 import { useQuery } from 'react-query';
 
+import { SearchRequest } from 'hooks/storages/useSearchParameter';
 import { useUserKafkaCluster } from 'hooks/storages/useUserKafkaCluster';
 
 export const useSearchQuery = (
-  inputs: any,
+  inputs: SearchRequest,
   refetchIntervalData: number,
   enabled: boolean,
   onSuccess: () => void

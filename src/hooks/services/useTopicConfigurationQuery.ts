@@ -4,7 +4,7 @@ import { useUserKafkaCluster } from 'hooks/storages/useUserKafkaCluster';
 
 export const useTopicConfigurationQuery = (topic_name: string) => {
   const kafkaCluster = useUserKafkaCluster((x) => x.kafkaCluster);
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, refetch } = useQuery({
     queryKey: ['get-topic-configuration', topic_name],
     queryFn: async () => {
       const res = await fetch(
@@ -20,5 +20,5 @@ export const useTopicConfigurationQuery = (topic_name: string) => {
     refetchOnWindowFocus: false,
   });
 
-  return { isLoading, data };
+  return { isLoading, data, refetch };
 };

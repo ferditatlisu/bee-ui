@@ -56,10 +56,7 @@ function SingleMessage({ TopicName, Partition, Offset }: SingleMessageProps) {
         isCentered
         size="xl"
         scrollBehavior="inside">
-        <ModalOverlay
-          bg="blackAlpha.300"
-          backdropFilter="blur(10px) hue-rotate(90deg)"
-        />
+        <ModalOverlay bg="blackAlpha.700" />
         <ModalContent>
           <ModalHeader>
             Partition: {Partition} - Offset: {Offset}

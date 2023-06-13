@@ -36,19 +36,17 @@ const Search = () => {
   const [refetchInterval, setRefetchInterval] = useState(0);
   const [isSearchingEnabled, setIsSearchingEnabled] = useState(false);
   const { mutate } = useDeleteSearchMutation();
-  const {
-    isLoading,
-    data: response,
-    refetch,
-    isRefetching,
-  } = useSearchQuery(parameters, refetchInterval, isSearchingEnabled, () =>
-    onSuccessRequest()
+  const { isLoading, data, refetch, isRefetching } = useSearchQuery(
+    parameters,
+    refetchInterval,
+    isSearchingEnabled,
+    () => onSuccessRequest()
   );
 
   const onSuccessRequest = () => {
-    if (response !== undefined) {
-      updateMessageCount(response);
-      pauseSearchIfNeeded(response);
+    if (data !== undefined) {
+      updateMessageCount(data);
+      pauseSearchIfNeeded(data);
     }
   };
   const [messageCount, setMessageCount] = useState(0);
@@ -135,47 +133,46 @@ const Search = () => {
             {searchTextName}
           </Button>
         </Flex>
-        {response !== undefined && (
+        {data !== undefined && (
           <Box borderWidth="1px" borderRadius="lg" width="750px">
             <HStack
               divider={
                 <StackDivider margin="0 !important" borderColor="gray.200" />
               }>
-              {response !== undefined && (
+              {data !== undefined && (
                 <Stat px="3">
                   <StatLabel>Status</StatLabel>
-                  <StatNumber>{response['status']}</StatNumber>
-                  {response['status'] !== 'Finished' && isSearchingEnabled && (
-                    <Spinner />
-                  )}
+                  <Flex gap={2}>
+                    {data['status'] !== 'Finished' && isSearchingEnabled && (
+                      <Spinner />
+                    )}
+                    <StatNumber>{data['status']}</StatNumber>
+                  </Flex>
                 </Stat>
               )}
-              {response !== undefined && (
+              {data !== undefined && (
                 <Stat px="3">
                   <StatLabel>Created Date</StatLabel>
                   <StatNumber whiteSpace="nowrap">
-                    {new Date(+response['createdDate']).toLocaleString()}
+                    {new Date(+data['createdDate']).toLocaleString()}
                   </StatNumber>
                 </Stat>
               )}
-              {response !== undefined &&
-                response['completedTime'] !== undefined && (
-                  <Stat px="3">
-                    <StatLabel>Completed Time</StatLabel>
-                    <StatNumber>
-                      <StatNumber>
-                        {response['completedTime'] + ' ms'}{' '}
-                      </StatNumber>
-                    </StatNumber>
-                  </Stat>
-                )}
-              {response !== undefined && response['error'] !== undefined && (
+              {data !== undefined && data['completedTime'] !== undefined && (
                 <Stat px="3">
-                  <StatLabel>Error</StatLabel>
-                  <StatNumber>{response['error']}</StatNumber>
+                  <StatLabel>Completed Time</StatLabel>
+                  <StatNumber>
+                    <StatNumber>{data['completedTime'] + ' ms'} </StatNumber>
+                  </StatNumber>
                 </Stat>
               )}
-              {response !== undefined && (
+              {data !== undefined && data['error'] !== undefined && (
+                <Stat px="3">
+                  <StatLabel>Error</StatLabel>
+                  <StatNumber>{data['error']}</StatNumber>
+                </Stat>
+              )}
+              {data !== undefined && (
                 <Flex direction="column" p="4">
                   <IconButton
                     p="1px"
@@ -189,9 +186,9 @@ const Search = () => {
             </HStack>
           </Box>
         )}
-        {response !== undefined &&
-          response['status'] !== 'Finished' &&
-          response['data'].length === 0 &&
+        {data !== undefined &&
+          data['status'] !== 'Finished' &&
+          data['data'].length === 0 &&
           isSearchingEnabled && (
             <Stack>
               <Skeleton height="20px" />
@@ -200,17 +197,17 @@ const Search = () => {
             </Stack>
           )}
         <Accordion allowMultiple>
-          {response !== undefined &&
-            response.data !== undefined &&
-            response['data'].length > 0 && (
+          {data !== undefined &&
+            data.data !== undefined &&
+            data['data'].length > 0 && (
               <SearchItemPage
-                pageItems={response.data}
+                pageItems={data.data}
                 CustomPage={SearchItem}
                 SearchKeyword={parameters.value}></SearchItemPage>
             )}
-          {response !== undefined &&
-            response['status'] === 'Finished' &&
-            response['data'].length === 0 &&
+          {data !== undefined &&
+            data['status'] === 'Finished' &&
+            data['data'].length === 0 &&
             !isSearchingEnabled && (
               <Box borderWidth="1px" p="3" borderRadius="lg">
                 <Text fontSize="sm">Record is not found</Text>

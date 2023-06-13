@@ -38,7 +38,7 @@ const ConsumerDetail = () => {
 
   const onButtonClickedDeleted = () => {
     mutate(group_id, {
-      onSuccess(data, variables, context) {
+      onSuccess() {
         navigate(`/consumers`);
       },
       onError(error, variables, context) {
@@ -56,9 +56,9 @@ const ConsumerDetail = () => {
   };
 
   return (
-    <Flex className="flex-col flex-1">
-      <Flex width="100%" maxWidth="100%">
-        <Flex fontSize="25" fontStyle="bold" p="2">
+    <Flex className="flex-col flex-1" gap={3}>
+      <Flex width="100%" maxWidth="100%" gap={2}>
+        <Flex fontSize="25" fontStyle="bold">
           {group_id}
         </Flex>
         <RefreshButton
@@ -90,7 +90,7 @@ const ConsumerDetail = () => {
           )}
         </HStack>
       </Box>
-      <Flex mt="5" className="flex-col flex-1">
+      <Flex className="flex-col flex-1">
         <Box borderWidth="1px" borderRadius="lg">
           <ConsumerDetailTopic group_id={group_id}></ConsumerDetailTopic>
         </Box>

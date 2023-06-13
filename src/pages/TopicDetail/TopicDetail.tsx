@@ -1,12 +1,10 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { shallow } from 'zustand/shallow';
 
-import { DeleteIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
   HStack,
-  IconButton,
   StackDivider,
   Stat,
   StatLabel,
@@ -16,15 +14,10 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Tooltip,
-  useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
 
-import CustomAlertDialog from 'components/CustomAlertDialog';
 import { RefreshButton } from 'components/RefreshButton';
 
-import { useDeleteTopicMutation } from 'hooks/services/useDeleteTopicMutation';
 import { useTopicInformationQuery } from 'hooks/services/useTopicInformationQuery';
 import { useSearchParameter } from 'hooks/storages/useSearchParameter';
 
@@ -35,12 +28,8 @@ import TopicDetailPublish from './TopicDetailPublish';
 
 const TopicDetail = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const topic_id = location.pathname.replace('/topics/', '');
   const searchParameter = useSearchParameter((x) => x.request, shallow);
-  const { mutate } = useDeleteTopicMutation();
   const changeSearchParameter = useSearchParameter((x) => x.change);
 
   changeSearchParameter({
@@ -55,42 +44,15 @@ const TopicDetail = () => {
     refetch();
   };
 
-  const onButtonClickedDeleted = () => {
-    mutate(topic_id, {
-      onSuccess(data, variables, context) {
-        navigate(`/topics`);
-      },
-      onError(error, variables, context) {
-        toast({
-          title: 'Error',
-          description: (error as any).message,
-          status: 'error',
-          duration: 2000,
-          position: 'top-right',
-          isClosable: true,
-        });
-        onClose();
-      },
-    });
-  };
   return (
-    <Flex className="flex-col" maxW="xl" width="100%" maxWidth="100%">
-      <Flex width="100%" maxWidth="100%">
-        <Flex fontSize="25" fontStyle="bold" p="2">
+    <Flex className="flex-col" maxW="xl" width="100%" maxWidth="100%" gap={3}>
+      <Flex width="100%" maxWidth="100%" gap={2}>
+        <Flex fontSize="25" fontStyle="bold">
           {topic_id}
         </Flex>
         <RefreshButton
           isLoading={isLoading || isRefetching}
           onButtonClicked={onButtonClicked}></RefreshButton>
-        <Tooltip label="Delete Group" placement="left">
-          <IconButton
-            style={{ marginLeft: 'auto', marginRight: '20px' }}
-            onClick={() => onOpen()}
-            icon={<DeleteIcon />}
-            colorScheme="red"
-            aria-label="delete"
-          />
-        </Tooltip>
       </Flex>
 
       <Box borderWidth="1px" borderRadius="lg" width="500px">
@@ -118,7 +80,7 @@ const TopicDetail = () => {
           )}
         </HStack>
       </Box>
-      <Flex mt="5" maxW="xl" width="100%" maxWidth="100%">
+      <Flex maxW="xl" width="100%" maxWidth="100%">
         <Tabs isFitted variant="enclosed" width="100%" maxWidth="100%">
           <TabList
             width="100%"
@@ -167,13 +129,6 @@ const TopicDetail = () => {
           </TabPanels>
         </Tabs>
       </Flex>
-      <CustomAlertDialog
-        isOpen={isOpen}
-        onButtonClickedOk={onButtonClickedDeleted}
-        onClose={onClose}
-        message="You are trying to delete the topic?"
-        okText="Remove"
-      />
     </Flex>
   );
 };
