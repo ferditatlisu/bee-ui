@@ -115,6 +115,7 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
                           )
                           .map((partition: any) => (
                             <Tr
+                              key={partition['partition']}
                               backgroundColor={
                                 partition['lag'] > 0 ? 'red' : 'white'
                               }>

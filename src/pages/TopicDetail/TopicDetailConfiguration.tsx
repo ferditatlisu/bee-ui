@@ -20,6 +20,7 @@ export const TopicDetailConfiguration = ({ topic_name }: any) => {
           {data !== undefined &&
             data.map((item: any, index: number) => (
               <TopicDetailConfigurationItem
+                key={index}
                 item={item}
                 index={index}
                 topicName={topic_name}

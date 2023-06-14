@@ -14,10 +14,11 @@ export const MessageItemHeaderCollapse = (headerValue: any) => {
     <>
       <Tr>
         {Object.keys(item).map((a: any) => (
-          <Td>{a}</Td>
+          <Td key="0">{a}</Td>
         ))}
         {Object.values(item).map((a: any) => (
           <Td
+            key="1"
             maxW="xl"
             overflow="hidden"
             whiteSpace="nowrap"
@@ -39,6 +40,7 @@ export const MessageItemHeaderCollapse = (headerValue: any) => {
           {Object.values(item).map((a: any) => {
             return (
               <Td
+                key="0"
                 maxW="xl"
                 overflow="hidden"
                 whiteSpace="nowrap"

@@ -17,43 +17,47 @@ import {
   StatLabel,
   StatNumber,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 
 import SearchItemPage from 'hooks/paginations/searchItemPage';
 import { useDeleteSearchMutation } from 'hooks/services/useDeleteSearch';
-import { useSearchQuery } from 'hooks/services/useSearchQuery';
+import { SearchResponse, useSearchQuery } from 'hooks/services/useSearchQuery';
 import { useSearchParameter } from 'hooks/storages/useSearchParameter';
 
 import SearchItem from './SearchItem';
 
 const SEARCH_START_BUTTON_TEXT = 'Start';
 const SEARCH_PAUSE_BUTTON_TEXT = 'Pause';
-const INTERNAL_REQUEST_MS = 3000;
 
 const Search = () => {
   const parameters = useSearchParameter((x) => x.request);
+  const toast = useToast();
   const changeParameter = useSearchParameter((x) => x.change);
-  const [refetchInterval, setRefetchInterval] = useState(0);
   const [isSearchingEnabled, setIsSearchingEnabled] = useState(false);
   const { mutate } = useDeleteSearchMutation();
-  const { isLoading, data, refetch, isRefetching } = useSearchQuery(
+  const { isLoading, data, isRefetching } = useSearchQuery(
     parameters,
-    refetchInterval,
     isSearchingEnabled,
-    () => onSuccessRequest()
+    (data: SearchResponse) => onSuccess(data),
+    (err: Error) => onError(err)
   );
 
-  const onSuccessRequest = () => {
-    if (data !== undefined) {
-      updateMessageCount(data);
-      pauseSearchIfNeeded(data);
-    }
+  const onError = (err: Error) => {
+    pauseSearching();
+    toast({
+      title: 'Error',
+      description: err.message,
+      status: 'error',
+      duration: 2000,
+      position: 'top-right',
+      isClosable: true,
+    });
   };
-  const [messageCount, setMessageCount] = useState(0);
 
-  const [searchTextName, setSearchTextName] = useState(
-    SEARCH_START_BUTTON_TEXT
-  );
+  const onSuccess = (successData: SearchResponse) => {
+    pauseSearchIfNeeded(successData);
+  };
 
   const handleChange =
     (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,28 +72,15 @@ const Search = () => {
   };
 
   const startSearching = () => {
-    setMessageCount(0);
-    setSearchTextName(SEARCH_PAUSE_BUTTON_TEXT);
-    setRefetchInterval(INTERNAL_REQUEST_MS);
     setIsSearchingEnabled(true);
-    refetch();
   };
 
   const pauseSearching = () => {
-    setSearchTextName(SEARCH_START_BUTTON_TEXT);
-    setRefetchInterval(0);
     setIsSearchingEnabled(false);
   };
 
-  const updateMessageCount = (data: any) => {
-    if (messageCount !== data.data.length) {
-      setMessageCount(data.data.length);
-    }
-  };
-
-  const pauseSearchIfNeeded = (data: any) => {
-    var state = data['status'];
-    if (state === 'Finished') {
+  const pauseSearchIfNeeded = (data: SearchResponse) => {
+    if (data.status === 'Finished') {
       pauseSearching();
     }
   };
@@ -130,7 +121,9 @@ const Search = () => {
             }}
             onClick={onClickedButtonSearch}
             className="text-white w-24">
-            {searchTextName}
+            {isSearchingEnabled
+              ? SEARCH_PAUSE_BUTTON_TEXT
+              : SEARCH_START_BUTTON_TEXT}
           </Button>
         </Flex>
         {data !== undefined && (
@@ -143,10 +136,10 @@ const Search = () => {
                 <Stat px="3">
                   <StatLabel>Status</StatLabel>
                   <Flex gap={2}>
-                    {data['status'] !== 'Finished' && isSearchingEnabled && (
+                    {data.status !== 'Finished' && isSearchingEnabled && (
                       <Spinner />
                     )}
-                    <StatNumber>{data['status']}</StatNumber>
+                    <StatNumber>{data.status}</StatNumber>
                   </Flex>
                 </Stat>
               )}
@@ -154,22 +147,22 @@ const Search = () => {
                 <Stat px="3">
                   <StatLabel>Created Date</StatLabel>
                   <StatNumber whiteSpace="nowrap">
-                    {new Date(+data['createdDate']).toLocaleString()}
+                    {new Date(+data.createdDate).toLocaleString()}
                   </StatNumber>
                 </Stat>
               )}
-              {data !== undefined && data['completedTime'] !== undefined && (
+              {data !== undefined && data.completedTime !== undefined && (
                 <Stat px="3">
                   <StatLabel>Completed Time</StatLabel>
                   <StatNumber>
-                    <StatNumber>{data['completedTime'] + ' ms'} </StatNumber>
+                    <StatNumber>{data.completedTime + ' ms'} </StatNumber>
                   </StatNumber>
                 </Stat>
               )}
-              {data !== undefined && data['error'] !== undefined && (
+              {data !== undefined && data.error !== undefined && (
                 <Stat px="3">
                   <StatLabel>Error</StatLabel>
-                  <StatNumber>{data['error']}</StatNumber>
+                  <StatNumber>{data.error}</StatNumber>
                 </Stat>
               )}
               {data !== undefined && (
@@ -187,8 +180,8 @@ const Search = () => {
           </Box>
         )}
         {data !== undefined &&
-          data['status'] !== 'Finished' &&
-          data['data'].length === 0 &&
+          data.status !== 'Finished' &&
+          data.data?.length === 0 &&
           isSearchingEnabled && (
             <Stack>
               <Skeleton height="20px" />
@@ -197,17 +190,15 @@ const Search = () => {
             </Stack>
           )}
         <Accordion allowMultiple>
+          {data !== undefined && data.data?.length > 0 && (
+            <SearchItemPage
+              pageItems={data.data}
+              CustomPage={SearchItem}
+              SearchKeyword={parameters.value}></SearchItemPage>
+          )}
           {data !== undefined &&
-            data.data !== undefined &&
-            data['data'].length > 0 && (
-              <SearchItemPage
-                pageItems={data.data}
-                CustomPage={SearchItem}
-                SearchKeyword={parameters.value}></SearchItemPage>
-            )}
-          {data !== undefined &&
-            data['status'] === 'Finished' &&
-            data['data'].length === 0 &&
+            data.status === 'Finished' &&
+            data.data.length === 0 &&
             !isSearchingEnabled && (
               <Box borderWidth="1px" p="3" borderRadius="lg">
                 <Text fontSize="sm">Record is not found</Text>

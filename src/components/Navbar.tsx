@@ -31,7 +31,9 @@ export const Navbar = () => {
               maxWidth="10%"
               defaultValue={kafkaCluster.id}>
               {data.map((d: any) => (
-                <option value={d.id}>{d.name}</option>
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
               ))}
             </Select>
           )}

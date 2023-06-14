@@ -1,11 +1,4 @@
-import React, {
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  LegacyRef,
-  MutableRefObject,
-  useRef,
-  useState,
-} from 'react';
+import React from 'react';
 
 import { EditIcon } from '@chakra-ui/icons';
 import {
@@ -87,7 +80,7 @@ export const CustomEditablePopover = ({
             />
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onButtonClickedEdit}>
+            <Button colorScheme="orange" mr={3} onClick={onButtonClickedEdit}>
               Edit
             </Button>
           </ModalFooter>

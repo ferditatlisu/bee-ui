@@ -63,8 +63,9 @@ export const MessageItemCollapse = (messageItem: any) => {
                   {message['headers'] !== undefined &&
                     message['headers'] !== null &&
                     Array.isArray(message['headers']) &&
-                    message['headers'].map((item: any) => (
+                    message['headers'].map((item: any, index: number) => (
                       <MessageItemHeaderCollapse
+                        key={index}
                         item={item}></MessageItemHeaderCollapse>
                     ))}
                 </Tbody>

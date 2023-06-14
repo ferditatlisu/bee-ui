@@ -16,7 +16,6 @@ import {
   Tag,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,

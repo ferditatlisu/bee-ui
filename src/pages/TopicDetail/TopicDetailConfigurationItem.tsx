@@ -1,5 +1,4 @@
-import { EditIcon } from '@chakra-ui/icons';
-import { Button, IconButton, Td, Tr } from '@chakra-ui/react';
+import { Td, Tr } from '@chakra-ui/react';
 
 import { CustomEditablePopover } from 'components/CustomEditablePopover';
 
@@ -29,7 +28,7 @@ export const TopicDetailConfigurationItem = ({
         textOverflow="ellipsis">
         {value}
       </Td>
-      <Td>
+      <Td key="2">
         <CustomEditablePopover
           topicName={topicName}
           configKey={key}
