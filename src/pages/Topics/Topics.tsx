@@ -58,9 +58,11 @@ const Topics = () => {
           onClickedText={onClickedButtonText}
           onRemoveButton={onButtonClickedRemoveViewedTag}></ViewedTags>
       )}
-      <Flex className="items-end gap-5 [&>div>p]:text-gray-500 [&>div>p]:text-xs [&>div>p]:font-semibold">
+      <Flex className="items-end gap-5">
         <Flex direction="column">
-          <Text mb="6px">Topic Name</Text>
+          <Text as="b" fontSize="xs" color="gray.500" mb="6px">
+            Topic Name
+          </Text>
           <Input
             size="sm"
             style={{ width: '800px' }}

@@ -10,6 +10,7 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  Text,
   Tooltip,
   useDisclosure,
   useToast,
@@ -58,13 +59,15 @@ const ConsumerDetail = () => {
   return (
     <Flex className="flex-col flex-1" gap={3}>
       <Flex width="100%" maxWidth="100%" gap={2}>
-        <Flex fontSize="25" fontStyle="bold">
-          {group_id}
+        <Flex>
+          <Text as="b" alignSelf="center" fontSize="2xl" color="gray.700">
+            {group_id}
+          </Text>
         </Flex>
         <RefreshButton
           isLoading={isLoading || isRefetching}
           onButtonClicked={onButtonClicked}></RefreshButton>
-        <Tooltip label="Delete Group" placement="left">
+        <Tooltip label="Delete Group" placement="left" backgroundColor="red">
           <IconButton
             style={{ marginLeft: 'auto', marginRight: '20px' }}
             onClick={() => onOpen()}

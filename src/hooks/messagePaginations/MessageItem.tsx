@@ -55,7 +55,7 @@ export const MessageItem = ({ message, topicName }: MessageItemProps) => {
   return (
     <>
       <Tr>
-        <Td>{message['offset']}</Td>
+        <Td>{message['offset'].toLocaleString('en-US')}</Td>
         <Td>{message['partition']}</Td>
         <Td>{new Date(+message['publish_date_utc']).toLocaleString()}</Td>
         <Td>{message['key']}</Td>

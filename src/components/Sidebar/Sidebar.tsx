@@ -1,8 +1,10 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { ReactComponent as KafkaIcon } from '@assets/images/kafka-icon.svg';
 import { ReactComponent as SlackIcon } from '@assets/images/slack-icon.svg';
-import { Button, Flex, Link, Text } from '@chakra-ui/react';
+import { Button, Center, Flex, Link, Text } from '@chakra-ui/react';
+
+import { ClusterSelect } from 'components/ClusterSelect';
 
 import { routes } from '../../routes';
 
@@ -11,13 +13,19 @@ const menuRoutes = routes?.[0]?.children
   : [];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
     <Flex
       className="w-56 h-screen p-2 shrink-0 flex-col bg-dark-blue"
       position="fixed"
       zIndex="9999">
-      <Flex className="justify-center mb-4">
-        <KafkaIcon className="w-50 text-kb-orange" />
+      <Flex maxWidth="100%">
+        <ClusterSelect />
+      </Flex>
+      <Flex color="gray.600" className="justify-center mb-6 mt-8">
+        <Link onClick={() => navigate('/')} className="w-36">
+          <KafkaIcon />
+        </Link>
       </Flex>
       {menuRoutes.map((route, i) => (
         <NavLink key={i} to={route.path}>

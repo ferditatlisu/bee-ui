@@ -93,9 +93,11 @@ const Search = () => {
   return (
     <Flex className="flex-col flex-1">
       <Flex className="flex-col gap-5">
-        <Flex className="items-end gap-5 [&>div>p]:text-gray-500 [&>div>p]:text-xs [&>div>p]:font-semibold">
+        <Flex className="items-end gap-5">
           <Flex direction="column">
-            <Text mb="6px">Topic Name</Text>
+            <Text as="b" fontSize="xs" color="gray.500" mb="6px">
+              Topic Name
+            </Text>
             <Input
               size="sm"
               style={{ width: '500px' }}
@@ -104,7 +106,9 @@ const Search = () => {
             />
           </Flex>
           <Flex direction="column">
-            <Text mb="6px">Value</Text>
+            <Text as="b" fontSize="xs" color="gray.500" mb="6px">
+              Value
+            </Text>
             <Input
               size="sm"
               value={parameters?.value}

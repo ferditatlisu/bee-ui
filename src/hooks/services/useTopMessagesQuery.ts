@@ -31,7 +31,7 @@ export const useTopMessagesQuery = ({
       });
       return res.json();
     },
-    retry: true,
+    retry: 2,
     keepPreviousData: true,
     refetchOnWindowFocus: false,
   });

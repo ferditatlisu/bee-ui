@@ -16,6 +16,7 @@ import {
   Tag,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -56,8 +57,7 @@ export const TopicDetailConsumer = ({ topic_name }: any) => {
             size="md"
             variant="solid"
             colorScheme={getTotalLag(data) > 0 ? 'red' : 'green'}>
-            total lag:
-            {getTotalLag(data)}
+            total lag: {getTotalLag(data).toLocaleString('en-US')}
           </Tag>
         )}
         <Box style={{ marginLeft: 'auto' }} paddingRight={4}>
@@ -120,14 +120,30 @@ export const TopicDetailConsumer = ({ topic_name }: any) => {
                                   partition['topic_offset'] +
                                   '_' +
                                   partition['partition']
-                                }
-                                backgroundColor={
-                                  partition['lag'] > 0 ? 'red' : 'white'
                                 }>
                                 <Td>{partition['partition']}</Td>
-                                <Td>{partition['topic_offset']}</Td>
-                                <Td>{partition['group_offset']}</Td>
-                                <Td>{partition['lag']}</Td>
+                                <Td>
+                                  <Text>
+                                    {partition['topic_offset'].toLocaleString(
+                                      'en-US'
+                                    )}
+                                  </Text>
+                                </Td>
+                                <Td>
+                                  {partition['group_offset'].toLocaleString(
+                                    'en-US'
+                                  )}
+                                </Td>
+                                <Td>
+                                  <Tag
+                                    size="md"
+                                    variant="solid"
+                                    colorScheme={
+                                      partition['lag'] > 0 ? 'red' : 'green'
+                                    }>
+                                    {partition['lag'].toLocaleString('en-US')}
+                                  </Tag>
+                                </Td>
                                 {partition['lag'] > 0 ? (
                                   <Td textAlign="right">
                                     {true && (

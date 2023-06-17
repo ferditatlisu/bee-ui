@@ -5,7 +5,7 @@ import { Box, Flex, Select } from '@chakra-ui/react';
 import { useKafkaClusterQuery } from 'hooks/services/useKafkaClusterQuery';
 import { useUserKafkaCluster } from 'hooks/storages/useUserKafkaCluster';
 
-export const Navbar = () => {
+export const ClusterSelect = () => {
   const navigate = useNavigate();
   const { isLoading, data } = useKafkaClusterQuery();
   const kafkaCluster = useUserKafkaCluster((x) => x.kafkaCluster);
@@ -21,24 +21,22 @@ export const Navbar = () => {
   };
 
   return (
-    <Box as="section">
-      <Box as="nav">
-        <Flex justifyContent="flex-end" marginRight="1">
-          {data !== undefined && (
-            <Select
-              size="sm"
-              onChange={onSelectChanged}
-              maxWidth="10%"
-              defaultValue={kafkaCluster.id}>
-              {data.map((d: any) => (
-                <option key={d.id} value={d.id}>
-                  {d.name}
-                </option>
-              ))}
-            </Select>
-          )}
-        </Flex>
-      </Box>
-    </Box>
+    <Flex width="100%" justifyContent="flex-end" marginRight="1">
+      {data !== undefined && (
+        <Select
+          borderColor="#00000047"
+          color="white"
+          backgroundColor="gray.700"
+          size="sm"
+          onChange={onSelectChanged}
+          defaultValue={kafkaCluster.id}>
+          {data.map((d: any) => (
+            <option key={d.id} value={d.id}>
+              {d.name}
+            </option>
+          ))}
+        </Select>
+      )}
+    </Flex>
   );
 };

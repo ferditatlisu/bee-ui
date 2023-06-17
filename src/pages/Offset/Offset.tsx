@@ -110,9 +110,9 @@ const Offset = () => {
     <Flex className="flex-col gap-8">
       <Flex className="items-end gap-5 [&>div>p]:text-gray-500 [&>div>p]:text-xs [&>div>p]:font-semibold">
         <Stack spacing={8} direction="row">
-          <VStack align="left" borderWidth="1px" borderRadius="lg" p="2">
+          <VStack align="left">
             <Flex direction="column">
-              <Text mb="6px" as="b">
+              <Text as="b" fontSize="xs" color="gray.500" mb="6px">
                 Group Id
               </Text>
               <Input
@@ -122,7 +122,7 @@ const Offset = () => {
               />
             </Flex>
             <Flex direction="column">
-              <Text mb="6px" as="b">
+              <Text as="b" fontSize="xs" color="gray.500" mb="6px">
                 Topic Name
               </Text>
               <Input
@@ -134,7 +134,10 @@ const Offset = () => {
             </Flex>
             <Flex direction="column">
               <HStack>
-                <Select onChange={onSelectChangedType}>
+                <Select
+                  fontSize="sm"
+                  value={parameters.offset_type}
+                  onChange={onSelectChangedType}>
                   <option value="SHIFTBY">SHIFTBY</option>
                   <option value="DATE">DATE</option>
                   <option value="BEGINNING">BEGINNING</option>
@@ -191,26 +194,28 @@ const Offset = () => {
                   </Thead>
                   <Tbody>
                     {data?.partitions !== undefined &&
-                      data.partitions.map((item: any) => (
-                        <Tr>
-                          <Td>{item.id}</Td>
-                          <Td>{item.topic_offset}</Td>
-                          <Td fontStyle="bold" color="red">
-                            {item.exist_offset}
-                          </Td>
-                          <Td>{item.exist_lag}</Td>
-                          <Td fontStyle="bold" color="green">
-                            {item.new_offset}
-                          </Td>
-                          <Td>{item.new_lag}</Td>
-                        </Tr>
-                      ))}
+                      data.partitions
+                        .sort((a: any, b: any) => a['id'] - b['id'])
+                        .map((item: any, index: number) => (
+                          <Tr key={index}>
+                            <Td>{item.id}</Td>
+                            <Td>{item.topic_offset}</Td>
+                            <Td fontStyle="bold" color="red">
+                              {item.exist_offset}
+                            </Td>
+                            <Td>{item.exist_lag}</Td>
+                            <Td fontStyle="bold" color="green">
+                              {item.new_offset}
+                            </Td>
+                            <Td>{item.new_lag}</Td>
+                          </Tr>
+                        ))}
                   </Tbody>
                   {data !== undefined && (
                     <TableCaption>
                       Total Changes:{' '}
                       <Tag size="md" variant="solid" colorScheme="green">
-                        {data.change}
+                        {data.change.toLocaleString('en-US')}
                       </Tag>
                     </TableCaption>
                   )}

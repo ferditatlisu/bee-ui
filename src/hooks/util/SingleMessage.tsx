@@ -71,7 +71,7 @@ function SingleMessage({ TopicName, Partition, Offset }: SingleMessageProps) {
             {data !== undefined && <pre>{JSON.stringify(data, null, 2)}</pre>}
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClickedButtonClose}>
+            <Button colorScheme="orange" mr={3} onClick={onClickedButtonClose}>
               Close
             </Button>
           </ModalFooter>

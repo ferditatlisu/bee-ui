@@ -39,10 +39,10 @@ export const TopicDetailMessage = ({ topic_name, partition_count }: any) => {
       <HStack spacing="20px" mb="3" width="100%" alignItems="end">
         <Flex>
           <VStack spacing="0px">
-            <Flex fontStyle="bold" fontSize="10" alignSelf="baseline">
+            <Flex fontStyle="bold" fontSize="2xs" alignSelf="baseline">
               PARTITION
             </Flex>
-            <Select onChange={onSelectChangedPartition}>
+            <Select fontSize="sm" onChange={onSelectChangedPartition}>
               {(() => {
                 const options = [];
                 options.push(
@@ -64,10 +64,10 @@ export const TopicDetailMessage = ({ topic_name, partition_count }: any) => {
         </Flex>
         <Flex>
           <VStack spacing="0px">
-            <Flex fontStyle="bold" fontSize="10" alignSelf="baseline">
+            <Flex fontStyle="bold" fontSize="2xs" alignSelf="baseline">
               SIZE
             </Flex>
-            <Select onChange={onSelectChangedSize}>
+            <Select fontSize="sm" onChange={onSelectChangedSize}>
               <option value="10">10</option>
               <option value="50">50</option>
               <option value="250">250</option>

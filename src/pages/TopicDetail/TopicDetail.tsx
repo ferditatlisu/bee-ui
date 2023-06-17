@@ -14,6 +14,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
 } from '@chakra-ui/react';
 
 import { RefreshButton } from 'components/RefreshButton';
@@ -47,8 +48,10 @@ const TopicDetail = () => {
   return (
     <Flex className="flex-col" maxW="xl" width="100%" maxWidth="100%" gap={3}>
       <Flex width="100%" maxWidth="100%" gap={2}>
-        <Flex fontSize="25" fontStyle="bold">
-          {topic_id}
+        <Flex>
+          <Text as="b" alignSelf="center" fontSize="2xl" color="gray.700">
+            {topic_id}
+          </Text>
         </Flex>
         <RefreshButton
           isLoading={isLoading || isRefetching}
@@ -87,16 +90,24 @@ const TopicDetail = () => {
             maxWidth="100%"
             className="[&>button]:text-kb-orange">
             <Tab padding={11} className="w-52">
-              Messages
+              <Text as="b" fontSize="md" mb="6px">
+                Messages
+              </Text>
             </Tab>
             <Tab padding={11} className="w-52">
-              Consumers
+              <Text as="b" fontSize="md" mb="6px">
+                Consumers
+              </Text>
             </Tab>
             <Tab padding={11} className="w-52">
-              Configuration
+              <Text as="b" fontSize="md" mb="6px">
+                Configurations
+              </Text>
             </Tab>
             <Tab padding={11} className="w-52">
-              Publish
+              <Text as="b" fontSize="md" mb="6px">
+                Publish
+              </Text>
             </Tab>
           </TabList>
           <TabPanels width="100%">

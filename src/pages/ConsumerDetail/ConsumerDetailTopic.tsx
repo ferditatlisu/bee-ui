@@ -55,8 +55,7 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
             size="md"
             variant="solid"
             colorScheme={getTotalLag(data) > 0 ? 'red' : 'green'}>
-            total lag:
-            {getTotalLag(data)}
+            total lag: {getTotalLag(data).toLocaleString('en-US')}
           </Tag>
         )}
         <Box style={{ marginLeft: 'auto' }} paddingRight={4}>
@@ -77,7 +76,7 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
                     size="md"
                     variant="solid"
                     colorScheme={item['total_lag'] > 0 ? 'red' : 'green'}>
-                    lag: {item['total_lag']}
+                    lag: {item['total_lag'].toLocaleString('en-US')}
                   </Tag>
                   <Tag size="md" variant="solid" colorScheme="gray">
                     assigned partitions: {item['partitions'].length}
@@ -114,15 +113,28 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
                             (a: any, b: any) => a['partition'] - b['partition']
                           )
                           .map((partition: any) => (
-                            <Tr
-                              key={partition['partition']}
-                              backgroundColor={
-                                partition['lag'] > 0 ? 'red' : 'white'
-                              }>
+                            <Tr key={partition['partition']}>
                               <Td>{partition['partition']}</Td>
-                              <Td>{partition['topic_offset']}</Td>
-                              <Td>{partition['group_offset']}</Td>
-                              <Td>{partition['lag']}</Td>
+                              <Td>
+                                {partition['topic_offset'].toLocaleString(
+                                  'en-US'
+                                )}
+                              </Td>
+                              <Td>
+                                {partition['group_offset'].toLocaleString(
+                                  'en-US'
+                                )}
+                              </Td>
+                              <Td>
+                                <Tag
+                                  size="md"
+                                  variant="solid"
+                                  colorScheme={
+                                    partition['lag'] > 0 ? 'red' : 'green'
+                                  }>
+                                  {partition['lag'].toLocaleString('en-US')}
+                                </Tag>
+                              </Td>
                               {partition['lag'] > 0 ? (
                                 <Td textAlign="right">
                                   {true && (

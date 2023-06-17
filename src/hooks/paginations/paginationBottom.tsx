@@ -37,7 +37,7 @@ export const PaginationBottom = ({
           separator={<PaginationSeparator fontSize="sm" w={7} jumpSize={11} />}>
           {pages.map((page: number) => (
             <PaginationPage
-              w={8}
+              minW={8}
               h={8}
               key={`pagination_page_${page}`}
               page={page}

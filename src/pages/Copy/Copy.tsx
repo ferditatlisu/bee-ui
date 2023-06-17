@@ -62,10 +62,12 @@ const Copy = () => {
   return (
     <Flex className="flex-col flex-1">
       <Flex className="flex-col gap-8">
-        <Flex className="items-end gap-5 [&>div>p]:text-gray-500 [&>div>p]:text-xs [&>div>p]:font-semibold">
+        <Flex className="items-end gap-5">
           <VStack align="left" p="2">
             <Flex direction="column">
-              <Text mb="6px">From Topic</Text>
+              <Text as="b" fontSize="xs" color="gray.500" mb="6px">
+                From Topic
+              </Text>
               <Input
                 size="sm"
                 style={{ width: '500px' }}
@@ -74,7 +76,9 @@ const Copy = () => {
               />
             </Flex>
             <Flex direction="column">
-              <Text mb="6px">To Topic</Text>
+              <Text as="b" fontSize="xs" color="gray.500" mb="6px">
+                To Topic
+              </Text>
               <Input
                 size="sm"
                 style={{ width: '500px' }}

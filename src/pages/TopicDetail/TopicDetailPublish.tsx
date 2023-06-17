@@ -10,6 +10,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Textarea,
   Th,
   Thead,
@@ -118,7 +119,11 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
           <Tbody>
             <Tr>
               <Td>
-                <Flex>Key: </Flex>
+                <Flex>
+                  <Text as="b" fontSize="sm" color="gray.500" mb="6px">
+                    Key:
+                  </Text>
+                </Flex>
               </Td>
               <Td>
                 <Input
@@ -130,7 +135,11 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
             </Tr>
             <Tr>
               <Td>
-                <Flex>Headers: </Flex>
+                <Flex>
+                  <Text as="b" fontSize="sm" color="gray.500" mb="6px">
+                    Headers:
+                  </Text>
+                </Flex>
               </Td>
               <Td>
                 <Textarea
@@ -149,7 +158,11 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
             </Tr>
             <Tr>
               <Td>
-                <Flex>Value: </Flex>
+                <Flex>
+                  <Text as="b" fontSize="sm" color="gray.500" mb="6px">
+                    Value:
+                  </Text>
+                </Flex>
               </Td>
               <Td>
                 <Textarea
