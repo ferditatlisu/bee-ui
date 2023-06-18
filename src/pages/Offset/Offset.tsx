@@ -34,9 +34,11 @@ import {
 import { useChangeOffsetMutation } from 'hooks/services/useChangeOffsetMutation';
 import { useSimulationChangeOffsetQuery } from 'hooks/services/useSimulationChangeOffsetQuery';
 import { useOffsetParameter } from 'hooks/storages/useOffsetParameter';
+import { useUserViewedGroups } from 'hooks/storages/useUserViewedGroup';
 
 const Offset = () => {
   const toast = useToast();
+  const addViewedGroup = useUserViewedGroups((x) => x.addViewedGroup);
   const navigate = useNavigate();
 
   const parameters = useOffsetParameter((x) => x.offsetRequest);
@@ -65,6 +67,7 @@ const Offset = () => {
   };
 
   const onClickedButtonShowConsumerGroupPage = () => {
+    addViewedGroup(parameters.group_id);
     navigate(`/consumers/${parameters.group_id}`);
   };
 
@@ -166,6 +169,7 @@ const Offset = () => {
               )}
             </Flex>
             <Button
+              color="white"
               size="sm"
               isDisabled={isLoading || isRefetching}
               isLoading={isLoading || isRefetching}
@@ -223,6 +227,7 @@ const Offset = () => {
               </TableContainer>
               <Button
                 size="sm"
+                color="white"
                 backgroundColor="#f27a1a"
                 _hover={{
                   background: '#f59547',

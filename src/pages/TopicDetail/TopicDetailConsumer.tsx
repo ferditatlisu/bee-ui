@@ -146,14 +146,12 @@ export const TopicDetailConsumer = ({ topic_name }: any) => {
                                 </Td>
                                 {partition['lag'] > 0 ? (
                                   <Td textAlign="right">
-                                    {true && (
-                                      <SingleMessage
-                                        TopicName={topic_name}
-                                        Partition={partition['partition']}
-                                        Offset={
-                                          partition['group_offset']
-                                        }></SingleMessage>
-                                    )}
+                                    <SingleMessage
+                                      TopicName={topic_name}
+                                      Partition={partition['partition']}
+                                      Offset={
+                                        partition['group_offset']
+                                      }></SingleMessage>
                                   </Td>
                                 ) : (
                                   <Td></Td>

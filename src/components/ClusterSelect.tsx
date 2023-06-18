@@ -22,7 +22,7 @@ export const ClusterSelect = () => {
 
   return (
     <Flex width="100%" justifyContent="flex-end" marginRight="1">
-      {data !== undefined && (
+      {data !== undefined && Array.isArray(data) && (
         <Select
           borderColor="#00000047"
           color="white"

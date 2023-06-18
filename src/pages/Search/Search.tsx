@@ -120,6 +120,7 @@ const Search = () => {
             isDisabled={isLoading || isRefetching}
             isLoading={isLoading || isRefetching}
             backgroundColor="#f27a1a"
+            color="white"
             _hover={{
               background: '#f59547',
             }}

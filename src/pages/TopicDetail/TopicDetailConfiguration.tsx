@@ -18,6 +18,7 @@ export const TopicDetailConfiguration = ({ topic_name }: any) => {
         </Thead>
         <Tbody>
           {data !== undefined &&
+            Array.isArray(data) &&
             data.map((item: any, index: number) => (
               <TopicDetailConfigurationItem
                 key={index}

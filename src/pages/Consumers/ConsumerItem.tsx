@@ -7,7 +7,7 @@ import { useUserViewedGroups } from 'hooks/storages/useUserViewedGroup';
 export const ConsumerItem = ({ pageItem }: any) => {
   const navigate = useNavigate();
   const group_id = pageItem.item;
-  const addViewedTopic = useUserViewedGroups((x) => x.addViewedGroup);
+  const addViewedGroup = useUserViewedGroups((x) => x.addViewedGroup);
 
   const onClickedButtonText = () => {
     addGroupToSearchCache();
@@ -15,7 +15,7 @@ export const ConsumerItem = ({ pageItem }: any) => {
   };
 
   const addGroupToSearchCache = () => {
-    addViewedTopic(group_id);
+    addViewedGroup(group_id);
   };
 
   return (

@@ -88,6 +88,7 @@ const Copy = () => {
             </Flex>
             <Button
               size="sm"
+              color="white"
               backgroundColor="#f27a1a"
               _hover={{
                 background: '#f59547',

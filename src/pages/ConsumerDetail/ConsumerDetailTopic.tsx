@@ -66,6 +66,7 @@ export const ConsumerDetailTopic = ({ group_id }: any) => {
       </HStack>
       <Accordion allowMultiple>
         {data !== undefined &&
+          Array.isArray(data) &&
           data.map((item: any, index: number) => (
             <AccordionItem key={index}>
               <AccordionButton>
