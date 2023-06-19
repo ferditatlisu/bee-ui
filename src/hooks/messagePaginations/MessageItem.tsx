@@ -45,11 +45,16 @@ export const MessageItem = ({ message, topicName }: MessageItemProps) => {
     onClose();
   };
 
-  const onButtonClickedCopy = () => {
+  const onButtonClickedValueCopy = () => {
     if (!!message['value'])
       navigator.clipboard.writeText(JSON.stringify(message['value'], null, 2));
+  };
 
-    console.log(message['value']);
+  const onButtonClickedHeaderCopy = () => {
+    if (!!message['headers'])
+      navigator.clipboard.writeText(
+        JSON.stringify(message['headers'], null, 2)
+      );
   };
 
   return (
@@ -89,11 +94,18 @@ export const MessageItem = ({ message, topicName }: MessageItemProps) => {
                 variant="outline"
               />
               <MenuList>
-                <MenuItem onClick={onButtonClickedCopy} icon={<CopyIcon />}>
-                  Copy Value
-                </MenuItem>
                 <MenuItem onClick={onOpen} icon={<AddIcon />}>
                   Publish Event
+                </MenuItem>
+                <MenuItem
+                  onClick={onButtonClickedValueCopy}
+                  icon={<CopyIcon />}>
+                  Copy Value
+                </MenuItem>
+                <MenuItem
+                  onClick={onButtonClickedHeaderCopy}
+                  icon={<CopyIcon />}>
+                  Copy Headers
                 </MenuItem>
               </MenuList>
             </Menu>
