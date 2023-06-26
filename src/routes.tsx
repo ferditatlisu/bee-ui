@@ -18,7 +18,6 @@ export type RouteType = {
 };
 
 const DefaultLayout = React.lazy(() => import('layouts/DefaultLayout'));
-const Search = React.lazy(() => import('pages/Search'));
 const Topics = React.lazy(() => import('pages/Topics'));
 const Consumers = React.lazy(() => import('pages/Consumers'));
 const TopicDetail = React.lazy(() => import('pages/TopicDetail'));
@@ -40,12 +39,6 @@ export const routes: Array<RouteType> = [
       {
         path: 'topics/:id',
         element: <TopicDetail />,
-      },
-      {
-        path: 'search',
-        title: 'Search',
-        element: <Search />,
-        icon: <SearchIcon />,
       },
       {
         path: 'consumers',

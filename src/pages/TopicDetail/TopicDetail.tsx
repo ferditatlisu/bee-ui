@@ -1,5 +1,4 @@
 import { useLocation } from 'react-router-dom';
-import { shallow } from 'zustand/shallow';
 
 import {
   Box,
@@ -20,24 +19,16 @@ import {
 import { RefreshButton } from 'components/RefreshButton';
 
 import { useTopicInformationQuery } from 'hooks/services/useTopicInformationQuery';
-import { useSearchParameter } from 'hooks/storages/useSearchParameter';
 
 import TopicDetailConfiguration from './TopicDetailConfiguration';
 import TopicDetailConsumer from './TopicDetailConsumer';
 import TopicDetailMessage from './TopicDetailMessage';
 import TopicDetailPublish from './TopicDetailPublish';
+import TopicDetailSearch from './TopicDetailSearch';
 
 const TopicDetail = () => {
   const location = useLocation();
   const topic_id = location.pathname.replace('/topics/', '');
-  const searchParameter = useSearchParameter((x) => x.request, shallow);
-  const changeSearchParameter = useSearchParameter((x) => x.change);
-
-  changeSearchParameter({
-    ...searchParameter,
-    topicName: topic_id,
-  });
-
   const { isLoading, data, refetch, isRefetching } =
     useTopicInformationQuery(topic_id);
 
@@ -57,30 +48,22 @@ const TopicDetail = () => {
           isLoading={isLoading || isRefetching}
           onButtonClicked={onButtonClicked}></RefreshButton>
       </Flex>
-
       <Box borderWidth="1px" borderRadius="lg" width="500px">
         <HStack spacing="1px" divider={<StackDivider borderColor="gray.200" />}>
-          {data !== undefined && (
-            <Stat p="4">
-              <StatLabel>Messages</StatLabel>
-              <StatNumber>
-                {data['message_count'] &&
-                  data['message_count'].toLocaleString('en-US')}
-              </StatNumber>
-            </Stat>
-          )}
-          {data !== undefined && (
-            <Stat p="4">
-              <StatLabel>Retention Day</StatLabel>
-              <StatNumber>{data['retention_day']}</StatNumber>
-            </Stat>
-          )}
-          {data !== undefined && (
-            <Stat p="4">
-              <StatLabel>Partitions</StatLabel>
-              <StatNumber>{data['partition_count']}</StatNumber>
-            </Stat>
-          )}
+          <Stat p="4">
+            <StatLabel>Messages</StatLabel>
+            <StatNumber>
+              {data['message_count'].toLocaleString('en-US')}
+            </StatNumber>
+          </Stat>
+          <Stat p="4">
+            <StatLabel>Retention Day</StatLabel>
+            <StatNumber>{data['retention_day']}</StatNumber>
+          </Stat>
+          <Stat p="4">
+            <StatLabel>Partitions</StatLabel>
+            <StatNumber>{data['partition_count']}</StatNumber>
+          </Stat>
         </HStack>
       </Box>
       <Flex maxW="xl" width="100%" maxWidth="100%">
@@ -109,6 +92,11 @@ const TopicDetail = () => {
                 Publish
               </Text>
             </Tab>
+            <Tab padding={11} className="w-52">
+              <Text as="b" fontSize="md" mb="6px">
+                Search
+              </Text>
+            </Tab>
           </TabList>
           <TabPanels width="100%">
             <TabPanel maxWidth="100%">
@@ -135,6 +123,11 @@ const TopicDetail = () => {
             <TabPanel>
               <Flex>
                 <TopicDetailPublish topic_name={topic_id}></TopicDetailPublish>
+              </Flex>
+            </TabPanel>
+            <TabPanel>
+              <Flex>
+                <TopicDetailSearch topic_name={topic_id}></TopicDetailSearch>
               </Flex>
             </TabPanel>
           </TabPanels>

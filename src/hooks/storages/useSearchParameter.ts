@@ -4,6 +4,9 @@ import { persist } from 'zustand/middleware';
 export interface SearchRequest {
   topicName: string;
   value: string;
+  startDate: number;
+  endDate: number;
+  valueType: number;
 }
 
 interface SearchParameter {
@@ -17,13 +20,18 @@ export const useSearchParameter = create(
       request: {
         topicName: '',
         value: '',
+        startDate: new Date(
+          new Date().setDate(new Date().getDate() - 3)
+        ).getTime(),
+        endDate: new Date().getTime(),
+        valueType: 3,
       },
       change: (data: SearchRequest) => {
         set({ request: data });
       },
     }),
     {
-      name: 'search-parameter',
+      name: 'topic-search-parameters',
     }
   )
 );

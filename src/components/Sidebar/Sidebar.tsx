@@ -1,8 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { ReactComponent as GitHubIcon } from '@assets/images/github.svg';
 import { ReactComponent as KafkaIcon } from '@assets/images/kafka-icon.svg';
 import { ReactComponent as SlackIcon } from '@assets/images/slack-icon.svg';
-import { Button, Center, Flex, Link, Text } from '@chakra-ui/react';
+import { Button, Center, Flex, IconButton, Link, Text } from '@chakra-ui/react';
 
 import { ClusterSelect } from 'components/ClusterSelect';
 
@@ -42,18 +43,18 @@ const Sidebar = () => {
           )}
         </NavLink>
       ))}
-      <Flex style={{ marginTop: 'auto' }}>
-        <Link href={KB_ENVIRONMENTS.SLACK_URL} isExternal minWidth="100%">
-          <Button
-            _hover={{
-              backgroundColor: '#00000047',
-            }}
-            backgroundColor="#00000047"
-            leftIcon={<SlackIcon width="25px" />}
-            color="white"
-            minWidth="100%">
-            Slack
-          </Button>
+      <Flex
+        direction="row"
+        style={{ marginTop: 'auto' }}
+        maxWidth="100%"
+        gap={5}
+        mb={2}
+        justify="center">
+        <Link href={KB_ENVIRONMENTS.SLACK_URL} isExternal>
+          <SlackIcon width="30px"></SlackIcon>
+        </Link>
+        <Link href="https://github.com/ferditatlisu/bee" isExternal>
+          <GitHubIcon width="34px" />
         </Link>
       </Flex>
     </Flex>

@@ -21,5 +21,11 @@ export const useTopicInformationQuery = (topic_name: string) => {
     refetchOnWindowFocus: false,
   });
 
-  return { isLoading, data, refetch, isRefetching };
+  const resultData = data ?? {
+    message_count: '-',
+    retention_day: '-',
+    partition_count: '-',
+  };
+
+  return { isLoading, data: resultData, refetch, isRefetching };
 };
