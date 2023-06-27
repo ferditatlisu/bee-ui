@@ -2,7 +2,10 @@ import { useQuery } from 'react-query';
 
 import { useUserKafkaCluster } from 'hooks/storages/useUserKafkaCluster';
 
-export const useTopicInformationQuery = (topic_name: string) => {
+export const useTopicInformationQuery = (
+  topic_name: string,
+  refetchInterval: number
+) => {
   const kafkaCluster = useUserKafkaCluster((x) => x.kafkaCluster);
   const { isLoading, data, refetch, isRefetching } = useQuery({
     queryKey: ['get-topic-info', topic_name],
@@ -16,6 +19,7 @@ export const useTopicInformationQuery = (topic_name: string) => {
       return res.json();
     },
     keepPreviousData: true,
+    refetchInterval,
     retry: 2,
     staleTime: Infinity,
     refetchOnWindowFocus: false,

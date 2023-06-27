@@ -2,19 +2,14 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { useRef, useState } from 'react';
-import { useQueryClient } from 'react-query';
-import { QueryClient } from 'react-query';
 
-import { DeleteIcon, SettingsIcon } from '@chakra-ui/icons';
+import { DeleteIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
   Flex,
   HStack,
   IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
   Skeleton,
   Spinner,
   Stack,
@@ -26,26 +21,35 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import { AdvanceSearch } from 'components/AdvanceSearch';
+import {
+  AdvanceSearch,
+  AdvanceSearchParameter,
+} from 'components/AdvanceSearch';
 
 import MessageItem from 'hooks/messagePaginations/MessageItem';
 import MessageItemPage from 'hooks/messagePaginations/MessageItemPage';
 import { useDeleteSearchMutation } from 'hooks/services/useDeleteSearch';
 import { SearchResponse, useSearchQuery } from 'hooks/services/useSearchQuery';
-import { useSearchParameter } from 'hooks/storages/useSearchParameter';
+import { SearchRequest } from 'hooks/storages/useSearchParameter';
 
 const SEARCH_START_BUTTON_TEXT = 'Start';
 const SEARCH_PAUSE_BUTTON_TEXT = 'Pause';
 
-export const TopicDetailSearch = ({ topic_name }: any) => {
-  const parameters = useSearchParameter((x) => x.request);
+export const TopicDetailSearch = ({ topicName }: any) => {
+  const [searchRequest, setSearchRequest] = useState<SearchRequest>({
+    topicName,
+    value: '',
+    startDate: new Date(new Date().setDate(new Date().getDate() - 3)).getTime(),
+    endDate: new Date().getTime(),
+    valueType: 3,
+  });
+
   const [isSearchingEnabled, setIsSearchingEnabled] = useState(false);
-  const changeParameter = useSearchParameter((x) => x.change);
   const { mutate } = useDeleteSearchMutation();
   const toast = useToast();
   const searchValueRef = useRef<any>(null);
   const { isLoading, data, isRefetching, removeCache } = useSearchQuery(
-    parameters,
+    searchRequest,
     isSearchingEnabled,
     (data: SearchResponse) => onSuccess(data),
     (err: Error) => onError(err)
@@ -63,6 +67,20 @@ export const TopicDetailSearch = ({ topic_name }: any) => {
     });
   };
 
+  const updateParameter = ({
+    startDate,
+    endDate,
+    valueType,
+  }: AdvanceSearchParameter) => {
+    setSearchRequest({
+      topicName: searchRequest.topicName,
+      value: searchRequest.value,
+      startDate,
+      endDate,
+      valueType,
+    });
+  };
+
   const onSuccess = (successData: SearchResponse) => {
     pauseSearchIfNeeded(successData);
   };
@@ -73,9 +91,13 @@ export const TopicDetailSearch = ({ topic_name }: any) => {
   };
 
   const startSearching = () => {
-    parameters.value = searchValueRef.current?.value;
-    parameters.topicName = topic_name;
-    changeParameter(parameters);
+    setSearchRequest({
+      topicName: searchRequest.topicName,
+      value: searchValueRef.current?.value,
+      startDate: searchRequest.startDate,
+      endDate: searchRequest.endDate,
+      valueType: searchRequest.valueType,
+    });
     setIsSearchingEnabled(true);
   };
 
@@ -91,7 +113,7 @@ export const TopicDetailSearch = ({ topic_name }: any) => {
 
   const onButtonClickedDeleted = () => {
     pauseSearching();
-    mutate(parameters, {
+    mutate(searchRequest, {
       onSettled: () => {
         console.log('yolo');
         removeCache();
@@ -106,7 +128,11 @@ export const TopicDetailSearch = ({ topic_name }: any) => {
           Value
         </Text>
         <Flex className="items-end gap-5" alignItems="center">
-          <AdvanceSearch searchValueRef={searchValueRef} />
+          <AdvanceSearch
+            searchValueRef={searchValueRef}
+            searchRequest={searchRequest}
+            updateParameter={updateParameter}
+          />
           <Button
             size="sm"
             isDisabled={isLoading || isRefetching}
@@ -195,7 +221,7 @@ export const TopicDetailSearch = ({ topic_name }: any) => {
             pageItems={data['data']}
             MessageItem={MessageItem}
             messageItemProps={{
-              topicName: topic_name,
+              topicName: topicName,
             }}></MessageItemPage>
         )}
       {data !== undefined &&

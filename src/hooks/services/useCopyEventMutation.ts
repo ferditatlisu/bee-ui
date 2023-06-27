@@ -11,7 +11,11 @@ export interface PostCopyEventRequest {
 
 export const useCopyEventMutation = () => {
   const kafkaCluster = useUserKafkaCluster((x) => x.kafkaCluster);
-  const { mutate } = useMutation<unknown, unknown, PostCopyEventRequest>({
+  const { mutate, isLoading, isSuccess } = useMutation<
+    unknown,
+    unknown,
+    PostCopyEventRequest
+  >({
     mutationFn: async (request) => {
       request.fromId = kafkaCluster.id;
       request.toId = kafkaCluster.id;
@@ -23,5 +27,5 @@ export const useCopyEventMutation = () => {
     },
   });
 
-  return { mutate };
+  return { mutate, mutateLoading: isLoading, mutateSuccess: isSuccess };
 };

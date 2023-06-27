@@ -16,6 +16,7 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import CustomAlertDialog from 'components/CustomAlertDialog';
@@ -25,7 +26,7 @@ import { usePublishMessageMutation } from 'hooks/services/usePublishMessageMutat
 
 export const TopicDetailPublish = ({ topic_name }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const toast = useToast();
   const [eventMessage, setEventMessage] = useState('');
   const [eventHeader, setEventHeader] = useState('');
   const [eventKey, setEventKey] = useState('');
@@ -79,18 +80,41 @@ export const TopicDetailPublish = ({ topic_name }: any) => {
   };
 
   const onClickedButtonOk = () => {
-    debugger;
     var headerObject =
       eventHeader !== ''
         ? JSON.parse(JSON.stringify(eventHeader)).replaceAll('\n', '')
         : undefined;
 
     var keyValue = eventKey !== '' ? eventKey : undefined;
-    mutate({
-      key: keyValue,
-      headers: headerObject,
-      value: eventMessage,
-    });
+    mutate(
+      {
+        key: keyValue,
+        headers: headerObject,
+        value: eventMessage,
+      },
+      {
+        onSuccess: () => {
+          toast({
+            title: 'Event',
+            description: 'Message published the Topic',
+            status: 'success',
+            duration: 1000,
+            position: 'top-right',
+            isClosable: true,
+          });
+        },
+        onError(error, variables, context) {
+          toast({
+            title: 'Event',
+            description: (error as any).message,
+            status: 'error',
+            duration: 3000,
+            position: 'top-right',
+            isClosable: true,
+          });
+        },
+      }
+    );
     onClose();
   };
 

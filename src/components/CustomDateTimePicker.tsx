@@ -37,7 +37,7 @@ export const CustomDateTimePicker = ({
       maxDate={new Date()}
       showTimeSelect
       timeFormat="HH:mm:ss"
-      timeIntervals={5}
+      timeIntervals={15}
       onChangeRaw={(e) => handleChangeRaw(e)}
       timeCaption="time"
       dateFormat="MM/dd/yyyy HH:mm:ss"

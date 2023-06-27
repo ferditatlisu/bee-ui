@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import { useTopicConfigMutation } from 'hooks/services/useTopicConfigMutation';
@@ -30,6 +31,7 @@ export const CustomEditablePopover = ({
   value,
   refetch,
 }: CustomEditablePopoverProp) => {
+  const toast = useToast();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate } = useTopicConfigMutation(topicName);
@@ -39,7 +41,25 @@ export const CustomEditablePopover = ({
       { key: configKey, value: inputRef.current?.value },
       {
         onSuccess: () => {
+          toast({
+            title: 'Configuration',
+            description: `${configKey} updated`,
+            status: 'success',
+            duration: 1000,
+            position: 'top-right',
+            isClosable: true,
+          });
           refetch();
+        },
+        onError(error, variables, context) {
+          toast({
+            title: 'Configuration',
+            description: (error as any).message,
+            status: 'error',
+            duration: 3000,
+            position: 'top-right',
+            isClosable: true,
+          });
         },
       }
     );

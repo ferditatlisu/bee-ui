@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { AddIcon, CopyIcon, HamburgerIcon, MinusIcon } from '@chakra-ui/icons';
 import {
-  Button,
   Center,
   IconButton,
   Menu,
@@ -12,6 +11,7 @@ import {
   Td,
   Tr,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import CustomAlertDialog from 'components/CustomAlertDialog';
@@ -27,6 +27,7 @@ export interface MessageItemProps {
 
 export const MessageItem = ({ message, topicName }: MessageItemProps) => {
   const [isShowDetail, setIsShowDetail] = useState(false);
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate } = usePublishMessageMutation(topicName);
 
@@ -35,13 +36,37 @@ export const MessageItem = ({ message, topicName }: MessageItemProps) => {
   };
 
   const onButtonClickedPublish = () => {
-    mutate({
-      key: message['key'],
-      headers: !!message['headers']
-        ? JSON.stringify(message['headers'])
-        : undefined,
-      value: JSON.stringify(message['value']),
-    });
+    mutate(
+      {
+        key: message['key'],
+        headers: !!message['headers']
+          ? JSON.stringify(message['headers'])
+          : undefined,
+        value: JSON.stringify(message['value']),
+      },
+      {
+        onSuccess: () => {
+          toast({
+            title: 'Event',
+            description: 'Message published the Topic',
+            status: 'success',
+            duration: 1000,
+            position: 'top-right',
+            isClosable: true,
+          });
+        },
+        onError(error, variables, context) {
+          toast({
+            title: 'Event',
+            description: (error as any).message,
+            status: 'error',
+            duration: 3000,
+            position: 'top-right',
+            isClosable: true,
+          });
+        },
+      }
+    );
     onClose();
   };
 

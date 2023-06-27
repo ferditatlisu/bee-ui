@@ -17,6 +17,11 @@ export const useTopicConfigMutation = (topicName: string) => {
         method: 'PUT',
         headers: { 'kafka-id': kafkaCluster.id },
       });
+
+      if (!res.ok) {
+        throw new Error((await res.json())['message']);
+      }
+
       return res.json();
     },
   });

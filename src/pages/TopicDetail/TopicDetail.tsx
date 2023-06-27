@@ -29,8 +29,10 @@ import TopicDetailSearch from './TopicDetailSearch';
 const TopicDetail = () => {
   const location = useLocation();
   const topic_id = location.pathname.replace('/topics/', '');
-  const { isLoading, data, refetch, isRefetching } =
-    useTopicInformationQuery(topic_id);
+  const { isLoading, data, refetch, isRefetching } = useTopicInformationQuery(
+    topic_id,
+    0
+  );
 
   const onButtonClicked = () => {
     refetch();
@@ -127,7 +129,7 @@ const TopicDetail = () => {
             </TabPanel>
             <TabPanel>
               <Flex>
-                <TopicDetailSearch topic_name={topic_id}></TopicDetailSearch>
+                <TopicDetailSearch topicName={topic_id}></TopicDetailSearch>
               </Flex>
             </TabPanel>
           </TabPanels>

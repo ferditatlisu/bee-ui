@@ -1,13 +1,21 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { CopyEventRequest } from 'hooks/storages/useCopyParameter';
 
-export const useCopyEventQuery = ({ fromTopic, toTopic }: CopyEventRequest) => {
+export const useCopyEventQuery = (
+  request: CopyEventRequest,
+  enabled: boolean,
+  refetchInterval: number,
+  onSuccess: (data: any) => void,
+  onError: (data: any) => void
+) => {
+  const queryClient = useQueryClient();
+  const queryKey = ['get-copy-event', request.fromTopic, request.toTopic];
   const { isLoading, data, refetch, isRefetching, isSuccess } = useQuery({
-    queryKey: ['get-copy-event', fromTopic, toTopic],
+    queryKey,
     queryFn: async () => {
       const res = await fetch(
-        `${KB_ENVIRONMENTS.KB_API}/copy-event?fromTopic=${fromTopic}&toTopic=${toTopic}`
+        `${KB_ENVIRONMENTS.KB_API}/copy-event?fromTopic=${request.fromTopic}&toTopic=${request.toTopic}`
       );
 
       if (!res.ok) {
@@ -16,12 +24,18 @@ export const useCopyEventQuery = ({ fromTopic, toTopic }: CopyEventRequest) => {
 
       return res.json();
     },
-    enabled: false,
-    retry: false,
+    enabled: enabled,
+    refetchInterval,
     refetchOnWindowFocus: false,
-    onError: () => {},
-    onSuccess: () => {},
+    initialData: undefined,
+    retry: 0,
+    onError,
+    onSuccess,
   });
 
-  return { isLoading, data, refetch, isRefetching, isSuccess };
+  const removeCache = () => {
+    queryClient.resetQueries({ queryKey, exact: true });
+  };
+
+  return { isLoading, data, refetch, isRefetching, isSuccess, removeCache };
 };

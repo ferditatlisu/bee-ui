@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 
-import { EditIcon, SettingsIcon } from '@chakra-ui/icons';
+import { SettingsIcon } from '@chakra-ui/icons';
 import {
   Button,
   Checkbox,
   CheckboxGroup,
   Flex,
-  HStack,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,17 +22,22 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { useSearchParameter } from 'hooks/storages/useSearchParameter';
-
 import CustomDateTimePicker from './CustomDateTimePicker';
 
-export const AdvanceSearch = ({ searchValueRef }: any) => {
-  const parameters = useSearchParameter((x) => x.request);
-  const changeParameter = useSearchParameter((x) => x.change);
+export interface AdvanceSearchParameter {
+  startDate: number;
+  endDate: number;
+  valueType: number;
+}
 
+export const AdvanceSearch = ({
+  searchValueRef,
+  searchRequest,
+  updateParameter,
+}: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [startDate, setStartDate] = useState(new Date(parameters.startDate));
-  const [endDate, setEndDate] = useState(new Date(parameters.endDate));
+  const [startDate, setStartDate] = useState(new Date(searchRequest.startDate));
+  const [endDate, setEndDate] = useState(new Date(searchRequest.endDate));
 
   const keyRef = React.useRef<any>(null);
   const valueRef = React.useRef<any>(null);
@@ -45,16 +48,18 @@ export const AdvanceSearch = ({ searchValueRef }: any) => {
   };
 
   const onButtonClickedSave = () => {
-    parameters.valueType = getValueType();
-    parameters.startDate = startDate.getTime();
-    parameters.endDate = endDate.getTime();
-    changeParameter(parameters);
+    var advanceSearchParameter: AdvanceSearchParameter = {
+      startDate: startDate.getTime(),
+      endDate: endDate.getTime(),
+      valueType: getValueType(),
+    };
+    updateParameter(advanceSearchParameter);
 
     onClose();
   };
 
   const getDefaultValueType = () => {
-    var valueType = parameters.valueType;
+    var valueType = searchRequest.valueType;
     var defaultValues = [];
 
     var hasKey = (valueType & 1) === 1;
@@ -77,7 +82,7 @@ export const AdvanceSearch = ({ searchValueRef }: any) => {
   return (
     <Flex className="flex-col">
       <InputGroup size="md">
-        <Input defaultValue={parameters.value} ref={searchValueRef} />
+        <Input defaultValue={searchRequest.value} ref={searchValueRef} />
         <InputRightElement>
           <IconButton
             icon={<SettingsIcon />}

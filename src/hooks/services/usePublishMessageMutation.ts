@@ -27,6 +27,11 @@ export const usePublishMessageMutation = (topicName: string) => {
         method: 'POST',
         headers: { ...defaultHeaders, 'kafka-id': kafkaCluster.id },
       });
+
+      if (!res.ok) {
+        throw new Error((await res.json())['message']);
+      }
+
       return res.json();
     },
   });
