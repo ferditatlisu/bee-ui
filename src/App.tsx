@@ -10,8 +10,15 @@ import { theme } from 'constants/theme';
 
 import { routes } from './routes';
 
-const queryClient = new QueryClient();
-
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retryDelay: 250,
+      retry: (failureCount, error) =>
+        (error as Response).status === 500 && failureCount <= 3 ? true : false,
+    },
+  },
+});
 const AppRoutes = () => {
   const location = useLocation();
   useEffect(() => {

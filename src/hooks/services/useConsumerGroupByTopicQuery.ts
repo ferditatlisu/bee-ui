@@ -13,11 +13,15 @@ export const useConsumerGroupByTopicQuery = (topic_name: string) => {
           headers: { 'kafka-id': kafkaCluster.id },
         }
       );
+
+      if (!res.ok) {
+        return Promise.reject(res);
+      }
+
       return res.json();
     },
     keepPreviousData: true,
     staleTime: Infinity,
-    retry: true,
   });
 
   return { isLoading, data, refetch, isRefetching };

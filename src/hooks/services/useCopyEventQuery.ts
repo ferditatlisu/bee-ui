@@ -28,7 +28,7 @@ export const useCopyEventQuery = (
     refetchInterval,
     refetchOnWindowFocus: false,
     initialData: undefined,
-    retry: 0,
+    retry: false,
     onError,
     onSuccess,
   });

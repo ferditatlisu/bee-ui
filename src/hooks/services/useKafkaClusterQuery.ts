@@ -15,9 +15,12 @@ export const useKafkaClusterQuery = () => {
         throw new Error();
       }
 
+      if (!res.ok) {
+        return Promise.reject(res);
+      }
+
       return res.json();
     },
-    retry: true,
     refetchOnWindowFocus: false,
   });
 

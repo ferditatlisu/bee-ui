@@ -41,7 +41,7 @@ export const useSimulationChangeOffsetQuery = ({
     },
     enabled: false,
     refetchOnWindowFocus: false,
-    retry: 0,
+    retry: false,
     onError: (error: Error) => {
       toast({
         title: 'Error',

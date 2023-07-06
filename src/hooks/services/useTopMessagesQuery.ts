@@ -29,9 +29,12 @@ export const useTopMessagesQuery = ({
       const res = await fetch(url, {
         headers: { 'kafka-id': kafkaCluster.id },
       });
+      if (!res.ok) {
+        return Promise.reject(res);
+      }
+
       return res.json();
     },
-    retry: 2,
     keepPreviousData: true,
     refetchOnWindowFocus: false,
   });

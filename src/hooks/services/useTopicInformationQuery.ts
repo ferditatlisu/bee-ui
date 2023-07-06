@@ -16,11 +16,15 @@ export const useTopicInformationQuery = (
           headers: { 'kafka-id': kafkaCluster.id },
         }
       );
+
+      if (!res.ok) {
+        return Promise.reject(res);
+      }
+
       return res.json();
     },
     keepPreviousData: true,
     refetchInterval,
-    retry: 2,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
