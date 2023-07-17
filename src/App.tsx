@@ -3,6 +3,7 @@ import './index.scss';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, useLocation, useRoutes } from 'react-router-dom';
+import { ConfigProvider as AntConfigProvider } from 'antd';
 
 import { ChakraProvider } from '@chakra-ui/react';
 
@@ -31,9 +32,16 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <AntConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#f27a1a',
+            },
+          }}>
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </AntConfigProvider>
       </ChakraProvider>
     </QueryClientProvider>
   );
