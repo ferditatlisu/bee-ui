@@ -31,6 +31,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import DateTimePicker from 'components/DateTimePicker';
+
 import { useChangeOffsetMutation } from 'hooks/services/useChangeOffsetMutation';
 import { useSimulationChangeOffsetQuery } from 'hooks/services/useSimulationChangeOffsetQuery';
 import { useOffsetParameter } from 'hooks/storages/useOffsetParameter';
@@ -109,6 +111,10 @@ const Offset = () => {
     onClose();
   };
 
+  function handleDateInputChange(unixMs: number) {
+    changeParameter({ ...parameters, value: unixMs });
+  }
+
   return (
     <Flex className="flex-col gap-8">
       <Flex className="items-end gap-5 [&>div>p]:text-gray-500 [&>div>p]:text-xs [&>div>p]:font-semibold">
@@ -158,13 +164,9 @@ const Offset = () => {
                 />
               )}
               {parameters.offset_type === 'DATE' && (
-                <Input
-                  mt="6px"
-                  size="sm"
-                  style={{ width: '500px' }}
-                  placeholder={`UTC timestamp: ${+new Date()}`}
-                  value={parameters?.value}
-                  onChange={handleChange('value')}
+                <DateTimePicker
+                  onChange={handleDateInputChange}
+                  defaultValueMs={new Date().getTime()}
                 />
               )}
             </Flex>

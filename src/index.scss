@@ -144,3 +144,14 @@ html {
     box-shadow: #f27a1a 0px 0px 2px !important;
   }
 }
+
+.ant-btn.ant-btn-primary {
+  background-color: #f27a1a !important;
+}
+
+.ant-picker-now-btn{
+  color:#f27a1a !important;
+}
+.ant-picker .ant-picker-input >input:focus{
+  box-shadow: none !important;
+}
